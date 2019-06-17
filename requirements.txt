@@ -1,3 +1,7 @@
 google-auth==1.6.3
 requests==2.22.0
 gnureadline==6.3.8 
+python-dateutil==2.8.0
+pytz==2019.1
+sqlsrvwrapper @ git+https://github.com/wcmc-research-informatics/sqlsrvwrapper/#egg=sqlsrvwrapper
+
