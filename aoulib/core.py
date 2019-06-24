@@ -1,7 +1,8 @@
 import json
 from google.oauth2.service_account import Credentials
 from google.auth.transport.requests import AuthorizedSession
-from urllib.parse import urlencode
+#from urllib.parse import urlencode
+import urllib
 
 #------------------------------------------------------------------------------
 
@@ -34,7 +35,7 @@ def spit(fname, dat):
   with open(fname, 'w') as f:
     f.write(dat)
 
-def get_records(api_spec, session, params=None):
+def get_records(api_spec, session, params=None, maxrows=None):
   '''
   This is the main function for retrieving data from the API.
   Arguments:
@@ -47,9 +48,14 @@ def get_records(api_spec, session, params=None):
       For details on possible params, see:
         - https://github.com/all-of-us/raw-data-repository#get-participantsummary
         - https://www.hl7.org/fhir/search.html
+    o maxrows (optional): function will stop retrieving any additional pages
+      once the rows accumulated surpasses this value.
   Returns:
     o A sequence of maps containing the dataset. 
   Also: see Note 1 (end of file) for FHIR bundle notes.
+  Example usage:
+    get_records(spec, sess, {'participantId':'X'}) # remove 'P' from ID first.
+    get_records(spec, sess, {'organization': 'COLUMBIA_WEILL'})
   '''
   resultset = []
   #-----------------
@@ -67,13 +73,14 @@ def get_records(api_spec, session, params=None):
               + 'ParticipantSummary'
               + '?'
               + 'awardee=' + api_spec['awardee']
-              + '&' + urlencode(params)
-              + '&count=200')
+              #+ '&' + urlencode(params)
+              + '&' + urllib.urlencode(params)
+              + '&count=100')
     return json.loads(session.get(full_url).text)
   #-----------------
   bundle = get_page()
   if bundle: resultset.extend(get_records_from_bundle(bundle))  
-  while has_link(bundle):
+  while has_link(bundle) and ((maxrows is None) or (len(resultset) < maxrows)):
     next_link = bundle['link'][0]['url']
     bundle = get_page(next_link)
     if bundle: resultset.extend(get_records_from_bundle(bundle))  

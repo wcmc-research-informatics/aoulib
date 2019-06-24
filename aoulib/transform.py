@@ -1,8 +1,11 @@
+
 import sys
 import dateutil.parser
 import pytz
 
 # See notes at bottom of file.
+
+__all__ = ['into_hp_row']
 
 #------------------------------------------------------------------------------
 # utilities
@@ -35,22 +38,22 @@ mappings_one_to_one = [
   {'hp':'Withdrawal Reason', 'api':'withdrawalReason', 'func':'api2hp_cb'},  # WQC 301, 374
   {'hp':'Withdrawal Date', 'api':'withdrawalTime', 'func':'api2hp_datetime'}, # WQC 330
 
-  {'hp':'Street Address', 'api':'streetAddress'},
+  {'hp':'Street Address', 'api':'streetAddress', 'func':'api2hp_basic'},
   # Note about streetAddress2: the API will leave this out if empty.
   # HealthPro checks for this and returns empty string.
-  {'hp':'Street Address2', 'api':'streetAddress2'}, # WQC 381 
-  {'hp':'City', 'api':'city'},
+  {'hp':'Street Address2', 'api':'streetAddress2', 'func':'api2hp_basic'}, # WQC 381 
+  {'hp':'City', 'api':'city', 'func':'api2hp_basic'},
   {'hp':'State', 'api':'state', 'func':'api2hp_state'},
-  {'hp':'ZIP', 'api':'zipCode'},
-  {'hp':'Email', 'api':'email'},
-  {'hp':'Phone', 'api':'phoneNumber'},
+  {'hp':'ZIP', 'api':'zipCode', 'func':'api2hp_basic'},
+  {'hp':'Email', 'api':'email', 'func':'api2hp_basic'},
+  {'hp':'Phone', 'api':'phoneNumber', 'func':'api2hp_basic'},
   {'hp':'Sex', 'api':'sex', 'func':'api2hp_cb'}, # WQC 337
   {'hp':'Gender Identity', 'api':'genderIdentity', 'func':'api2hp_cb'}, # WQC 338
   {'hp':'Race/Ethnicity', 'api':'race', 'func':'api2hp_cb'}, # WQC 339
   {'hp':'Education', 'api':'education', 'func':'api2hp_cb'}, # WQC 340
 
   {'hp':'Required PPI Surveys Complete', 'api':'numCompletedBaselinePPIModules', 'func':'api2hp_required_surveys_completed'},
-  {'hp':'Completed Surveys', 'api':'numCompletedPPIModules', 'func':'api2hp_into_str'}, # WQC 342
+  {'hp':'Completed Surveys', 'api':'numCompletedPPIModules', 'func':'api2hp_completed_or_0'}, # WQC 342
 
   # Surveys processed in WQC via for-loops starting line 278 (headers), 344 (values)
   # See also: $surveys data member in WQ class. (line 206).
@@ -74,13 +77,14 @@ mappings_one_to_one = [
 
   {'hp':'Physical Measurements Status', 'api':'physicalMeasurementsStatus', 'func':'api2hp_completed'}, # WQC 289, 
   {'hp':'Physical Measurements Completion Date', 'api':'physicalMeasurementsFinalizedTime', 'func':'api2hp_datetime'}, # WQC 290, 356
-  {'hp':'Physical Measurements Site', 'api':'evaluationFinalizedSite'},  # WQC 293, 359
+  #{'hp':'Physical Measurements Site', 'api':'evaluationFinalizedSite'},  # WQC 293, 359
+  {'hp':'Physical Measurements Site', 'api':'physicalMeasurementsFinalizedSite', 'func':'api2hp_site'},  # WQC 293, 359
 
   {'hp':'Paired Site', 'api':'site', 'func':'api2hp_site'}, # WQC 291, 357
   {'hp':'Paired Organization', 'api':'organization'}, # WQC 292, 358
 
   {'hp':'Samples for DNA Received', 'api':'samplesToIsolateDNA', 'func':'api2hp_received'}, # WQC 294, 360
-  {'hp':'Biospecimens', 'api':'numBaselineSamplesArrived', 'func':'api2hp_into_str'}, # WQC 295, 361
+  {'hp':'Biospecimens', 'api':'numBaselineSamplesArrived', 'func':'api2hp_completed_or_0'}, # WQC 295, 361
 
   # Specific biospecimen-related fields constructed using for-loop
   # in WQC line 296-299 (headers), line 362 (values).
@@ -122,12 +126,22 @@ mappings_one_to_one = [
   {'hp':'DV-only EHR Sharing Status', 'api':'consentForDvElectronicHealthRecordsSharing', 'func':'api2hp_status'},
   {'hp':'DV-only EHR Sharing Date', 'api':'consentForDvElectronicHealthRecordsSharingTime', 'func':'api2hp_datetime'},
 
-  {'hp':'Login Phone', 'api':'loginPhoneNumber'}
+  {'hp':'Login Phone', 'api':'loginPhoneNumber', 'func':'api2hp_basic'}
 
 ]
 
+def api2hp_basic(x):
+  if x == 'UNSET': return ''
+  else: return x
+
+def api2hp_completed_or_0(x):
+  out = str(x)
+  if x == '': return '0'
+  else: return out
+
 def api2hp_date(x):
   '''yyyy-MM-dd into dd/MM/yyyy'''
+  if not x or x.strip() == '': return ''
   return dateutil.parser.parse(x).strftime('%m/%d/%Y')
 
 def api2hp_datetime(x):
@@ -136,8 +150,7 @@ def api2hp_datetime(x):
   Note that target tz of US/Eastern is hardcoded here (change if desired).
   We don't completely match (HP also strips leading zero from month
   and day) but close enough.'''
-  if x.strip() == '':
-    return ''
+  if not x or x.strip() == '': return ''
   dt_obj = dateutil.parser.parse(x)
   dt_obj = dt_obj.replace(tzinfo=pytz.utc)
   tz_eastern = pytz.timezone('US/Eastern')
@@ -145,11 +158,10 @@ def api2hp_datetime(x):
   # - shift timezone from UTC to Eastern
   # - format into the almost (but not quite) the desired HP style datetime format.
   return dt_obj.astimezone(tz=tz_eastern).strftime('%m/%d/%Y %I:%M %p')
-  # If you wanted you could also do:
+  # If you wanted you could also use the version below in order to:
   # - remove leading zero from hour portion
-  # - change AM / PM to am / pm with lower()
+  # - change "AM" / "PM" to "am" / "pm" with lower()
   # return dt_obj.astimezone(tz=tz_eastern).strftime('%m/%d/%Y %I:%M %p').replace(' 0', ' ').lower()
-
 
 def api2hp_language(x):
   '''Converts API-style language string into full name of language.
@@ -159,6 +171,7 @@ def api2hp_language(x):
   - Determined via data review (also, see HP CodeBook).
   - (That said, note that these are the only two langauges handled per WQ
     $filtersDisabled method.)'''
+  if x == 'UNSET': return ''
   if x == 'en': return 'English'
   if x == 'es': return 'Spanish'
   return x
@@ -191,7 +204,8 @@ def api2hp_withdrawal(x):
   return '0'
 
 def api2hp_state(x):
-  return x.replace('PIIState_', '')
+  if x == 'UNSET': return ''
+  else: return x.replace('PIIState_', '')
 
 def api2hp_required_surveys_completed(x):
   '''This function replicates the inline logic at WQC line 341.'''
@@ -202,7 +216,8 @@ def api2hp_into_str(x):
   return str(x)
 
 def api2hp_site(x):
-  return x.replace('hpo-site-', '')
+  if x == 'UNSET': return ''
+  else: return x.replace('hpo-site-', '')
 
 #-------------------------------------------------------------------------------
 # codebook 
@@ -348,8 +363,10 @@ For more info, see:
   - WQ $samplesAlias data member line 231 (as well as $samples data member
     just above it). Each entry in samplesAlias is itself a map of kvps.
   - I put a copy of some of the pertinent PHP code at bottom of file.
+  - We handle these differently, using api2hp_mult_sample_resolve function and
+    subsequently there is a specific block of logic in the into_hp_row as well.
 
-Below, lists of API field names are listed in decreasing order of precdence.
+Below, lists of API field names are listed in *decreasing* order of precedence.
 '''
 mappings_one_to_many = [
   {'hp':'8 mL SST Collected', 'api': ['sampleStatus2SST8','sampleStatus1SS08', 'sampleStatus1SST8']},
@@ -357,7 +374,7 @@ mappings_one_to_many = [
   {'hp':'8 mL PST Collected', 'api': ['sampleStatus2PST8','sampleStatus1PS08', 'sampleStatus1PST8']},
   {'hp':'8 mL PST Collection Date', 'api':['sampleStatus2PST8Time','sampleStatus1PS08Time', 'sampleStatus1PST8Time']}, 
   {'hp':'Saliva Collected', 'api': ['sampleStatus1SAL2', 'sampleStatus1SAL']},
-  {'hp':'Saliva Collected Date', 'api':['sampleStatus1SAL2Time', 'sampleStatus1SALTime']} 
+  {'hp':'Saliva Collection Date', 'api':['sampleStatus1SAL2Time', 'sampleStatus1SALTime']} 
 ]
 
 def api2hp_mult_sample_resolve(api_row, status_fields, time_fields):
@@ -384,8 +401,9 @@ def api2hp_mult_sample_resolve(api_row, status_fields, time_fields):
   # See also: api2hp_received function above.
   for i, field in enumerate(status_fields):
     if api_row.get(field, '') == 'RECEIVED':
+      #return ['1', api_row[time_fields[i]]]
       #return ['1', api2hp_datetime(api_row[time_fields[i]])]
-      return ['1', api_row[time_fields[i]]]
+      return ['1', api2hp_datetime(api_row.get(time_fields[i], ''))]
   return ['0', ''] 
 
 #------------------------------------------------------------------------------
@@ -396,7 +414,7 @@ def into_hp_row(api_row):
   If a value is missig in api_row, using empty string (e.g., address2).
   '''
   out = {}
-  # Handle one to one mappings (i.e., most of them).
+  # First, handle one-to-one mappings (which are most of them).
   for mapping in mappings_one_to_one:
     api_val = api_row.get(mapping['api'], '')
     hp_val = ''
@@ -406,7 +424,10 @@ def into_hp_row(api_row):
       hp_val = api_val
     out[mapping['hp']] = hp_val
 
-  # Handle special cases that are one to many.
+  # Then, handle one-to-many items.
+  # Note: we're handling two at a time -- the value and time
+  # need to be processed as a pair (time field depends on value field we 
+  # choose.)
   i = 0
   while i < len(mappings_one_to_many):
     hp_val = ''
@@ -418,9 +439,6 @@ def into_hp_row(api_row):
     out[mappings_one_to_many[i + 1]['hp']] = time
     i += 2
   return out
-
-def api_into_hp(api_dataset):
-  pass
 
 #------------------------------------------------------------------------------
 '''
@@ -476,7 +494,7 @@ CodeBook:
         ]
     ];
 
-### WorkQueueController pertinent logic
+### WorkQueueController pertinent logic pertaining to 1-to-many mappings.
 
   foreach (array_keys(WorkQueue::$samples) as $sample) {
       $newSample = $sample;
@@ -493,6 +511,4 @@ CodeBook:
 '''
 #------------------------------------------------------------------------------
 
-def chk(x):
-  return [x, len(x)]
 
