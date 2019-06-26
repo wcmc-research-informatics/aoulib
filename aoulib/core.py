@@ -1,7 +1,8 @@
+from __future__ import division
+from __future__ import print_function
 import json
 from google.oauth2.service_account import Credentials
 from google.auth.transport.requests import AuthorizedSession
-#from urllib.parse import urlencode
 import urllib
 
 #------------------------------------------------------------------------------
@@ -73,7 +74,6 @@ def get_records(api_spec, session, params=None, maxrows=None):
               + 'ParticipantSummary'
               + '?'
               + 'awardee=' + api_spec['awardee']
-              #+ '&' + urlencode(params)
               + '&' + urllib.urlencode(params)
               + '&count=100')
     return json.loads(session.get(full_url).text)
@@ -87,7 +87,7 @@ def get_records(api_spec, session, params=None, maxrows=None):
   return resultset 
 
 def compare_pmi_ids(api_spec, session):
-  '''Test to confirm that the set of PMI IDs returned from the
+  '''Test function. Use to check that the set of PMI IDs returned from the
   last-modified dataset (which has IDs and timestamps only) matches
   the set of PMI IDs retrieved when paging through the entire
   dataset via API.'''

@@ -1,3 +1,5 @@
+from __future__ import division
+from __future__ import print_function
 import core as c
 import transform as t
 import sqlsrvwrapper as s
