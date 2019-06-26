@@ -80,6 +80,14 @@ Finally, if you wish to conduct a test, you can specify a value for maxrows
 you can test your pipeline and configuration without waiting for an entire dataset
 to load/process.
 
+### Setting up as cron job
+
+The included script runjob.sh shows how to 
+initiate the virtual env first and then run the software. Customize for your
+environment.
+
+
+
 '''
 
 #####################################
