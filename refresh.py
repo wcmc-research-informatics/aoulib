@@ -11,7 +11,8 @@ import sqlsrvwrapper as s
 This script provides a command-line interface to the aoulib 
 library's 'etl.api2db' function; this can be scheduled as a cron job for
 fully automated refreshes from the API into a SQL Server database table,
-with the data transformed into the HealthPro data format.
+with the data transformed into the HealthPro data format. A SQL Server
+Agent job can also be run after.
 
 ## Setting up and running refresh.py
 
@@ -85,8 +86,6 @@ to load/process.
 The included script runjob.sh shows how to 
 initiate the virtual env first and then run the software. Customize for your
 environment.
-
-
 
 '''
 
