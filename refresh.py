@@ -47,9 +47,10 @@ Create  `enclave/aou-api-spec.json` with these contents:
     {"path-to-key-file": "/path/to/my/key.json",
      "base-url": "https://all-of-us-rdr-prod.appspot.com/rdr/v1/",
      "service-account": "X",
-     "awardee": "X"}
+     "awardee": "X",
+     "project": "all-of-us-ops-data-api-prod"}
 
-_Note:_ please confirm the URL, but the one above will most likely be what you'll use.
+_Note:_ please confirm the URL and project, but the one above will most likely be what you'll use.
 
 #### Database specification file
 
@@ -106,10 +107,6 @@ AGENT_JOB_TIMEOUT = 20000
 
 log = ks.smart_logger()
 
-def slurpjson(fname):
-  with open(fname, 'r') as f:
-    return json.loads(f.read())
-
 #-------------------------------------------------------------------------------
 
 def main():
@@ -131,8 +128,8 @@ def main():
     args = p.parse_args()
     api_spec_fname = args.aou_api_spec_fpath
     db_spec_fname = args.db_spec_fpath
-    api_spec = slurpjson(api_spec_fname)
-    db_spec = slurpjson(db_spec_fname)
+    api_spec = ks.slurp_json(api_spec_fname)
+    db_spec = ks.slurp_json(db_spec_fname)
     maxrows = args.maxrows
   except Exception, ex:
     print(traceback.format_exc())

@@ -6,7 +6,7 @@ import kickshaws as ks
 '''
 Example usage:
 >>> import compare
->>> compare(db_spec, 'dm_aou..healthpro', 'dm_aou..healthpro2')
+>>> compare.go(db_spec, 'dm_aou..healthpro', 'dm_aou..healthpro2')
 '''
 
 def select_row(dataset, pmi_id):
@@ -36,5 +36,5 @@ def go(db_spec, t1, t2):
   d1 = s.db_qy(db_spec, 'select * from ' + t1)
   d2 = s.db_qy(db_spec, 'select * from ' + t2)
   rslt = comp(d1, d2)
-  print rslt
+  print(rslt)
 

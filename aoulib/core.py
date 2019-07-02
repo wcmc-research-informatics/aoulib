@@ -1,9 +1,9 @@
 from __future__ import division
 from __future__ import print_function
 import json
+import urllib
 from google.oauth2.service_account import Credentials
 from google.auth.transport.requests import AuthorizedSession
-import urllib
 
 #------------------------------------------------------------------------------
 
@@ -32,10 +32,6 @@ def get_last_modified_info(api_spec, session):
               )
   return json.loads(session.get(full_url).text)
 
-def spit(fname, dat):
-  with open(fname, 'w') as f:
-    f.write(dat)
-
 def get_records(api_spec, session, params=None, maxrows=None):
   '''
   This is the main function for retrieving data from the API.
@@ -55,8 +51,10 @@ def get_records(api_spec, session, params=None, maxrows=None):
     o A sequence of maps containing the dataset. 
   Also: see Note 1 (end of file) for FHIR bundle notes.
   Example usage:
-    get_records(spec, sess, {'participantId':'X'}) # remove 'P' from ID first.
+    get_records(spec, sess, {'participantId':'id-goes-here'}) # Note: remove 'P' from ID first.
     get_records(spec, sess, {'organization': 'COLUMBIA_WEILL'})
+    # Next example uses 'gt' FHIR search operator:
+    get_records(api_spec, sess, {'consentForStudyEnrollmentTime':'gt2019-01-01'})
   '''
   resultset = []
   #-----------------
@@ -74,7 +72,7 @@ def get_records(api_spec, session, params=None, maxrows=None):
               + 'ParticipantSummary'
               + '?'
               + 'awardee=' + api_spec['awardee']
-              + '&' + urllib.urlencode(params)
+              + (('&' + urllib.urlencode(params)) if params else '')
               + '&count=100')
     return json.loads(session.get(full_url).text)
   #-----------------
@@ -87,10 +85,11 @@ def get_records(api_spec, session, params=None, maxrows=None):
   return resultset 
 
 def compare_pmi_ids(api_spec, session):
-  '''Test function. Use to check that the set of PMI IDs returned from the
-  last-modified dataset (which has IDs and timestamps only) matches
-  the set of PMI IDs retrieved when paging through the entire
-  dataset via API.'''
+  '''Test function to verify get_records is returning the
+  entirety of the dataset you expect. Checks that the set of 
+  PMI IDs returned from the get_last_modified_info (which 
+  has IDs and timestamps only) matches the set of PMI IDs 
+  retrieved when paging through the entire dataset via API.'''
   last_modified_info_set = get_last_modified_info(api_spec, session)
   full_set = get_records(api_spec, session)
   a = set([mp['participantId'] for mp in last_modified_info_set])
