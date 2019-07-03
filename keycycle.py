@@ -44,7 +44,6 @@ environment.
 '''
 
 log = ks.smart_logger('keycycle')
-cfg = ks.slurp_json('enclave/site-config.json')
 
 def main():
   log.info('========== keycycle.sh started ============')
