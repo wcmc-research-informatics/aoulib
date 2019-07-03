@@ -8,6 +8,8 @@ import kickshaws as ks
 import sqlsrvwrapper as s
 
 '''
+# refresh.py
+
 This script provides a command-line interface to the aoulib 
 library's 'etl.api2db' function; this can be scheduled as a cron job for
 fully automated refreshes from the API into a SQL Server database table,
@@ -67,24 +69,48 @@ This will be used to connect to your SQL Server instance.
 
 * Uses `US/Eastern` timezone for conversions. Change this in `transform.py` if desired.
 
-### Configuration items
+### Site-specific configuration items
 
-See the site-specific configuration items a bit further below.
+There are some site-specific config items that need to be configured. Create the file
+enclave/site-config.py with the following key-value pairs:
 
+    {"should-send-emails": true,
+     "from-email": "from email address",
+     "to-email": "to email address",
+     "paired-organization-params": {"organization": "COLUMBIA_WEILL"},
+     "db-table-name": "dm_aou.dbo.healthpro2",
+     "should-run-agent-job": true,
+     "agent-job-name": "DM_AOU REDCap Refresh Decoupled",
+     "agent-job-timeout": 20000}
+
+- Set should-send-emails to false (no quotes) to skip this.
+
+- paired-organization-params -- These are query filters
+you can use to filter the records queried from the API.
+to null (no quotes) if no filtering is needed. 
+
+- You can optionally run a SQL Server agent job afterward. Configure the 
+last three items as desired. Set should-run-agent-job to false (no quotes)
+to skip this.
 ### Actually running refresh.py 
 
 Example:
 
-    python refresh.py --aou-api-spec-fpath enclave/aou-api-spec.json --db-spec-fpath enclave/p03.json
+    source venv/bin/activate
+    python refresh.py --site-config enclave/site-config.json --aou-api-spec enclave/aou-api-spec.json --db-spec enclave/p03.json
 
-Finally, if you wish to conduct a test, you can specify a value for maxrows
+... or, just use the provided shell script: ...
+
+  ./runrefresh.sh    
+
+Note: if you wish to conduct a test, you can specify a value for maxrows
 (the program doesn't honor the value exactly but will be close). This way,
 you can test your pipeline and configuration without waiting for an entire dataset
 to load/process.
 
 ### Setting up as cron job
 
-The included script runjob.sh shows how to 
+The included script runrefresh.sh shows how to 
 initiate the virtual env first and then run the software. Customize for your
 environment.
 
@@ -94,30 +120,24 @@ environment.
 # Site-specific configuration items #
 #####################################
 
-PAIRED_ORGANIZATION_PARAM = {'organization': 'COLUMBIA_WEILL'}
-DB_TABLE_NAME = 'dm_aou.dbo.healthpro2'
-
-# You can optionally run a SQL Server agent job afterward.
-
-SHOULD_RUN_AGENT_JOB = True
-AGENT_JOB_NAME = 'DM_AOU REDCap Refresh Decoupled'
-AGENT_JOB_TIMEOUT = 20000
-
 #-------------------------------------------------------------------------------
 
-log = ks.smart_logger()
+log = ks.smart_logger('refresh')
 
 #-------------------------------------------------------------------------------
 
 def main():
   # (1) Process any command-line options.
-  log.info('refresh.py started')
+  log.info('========== refresh.py started ============')
   try:
     p = argparse.ArgumentParser()
-    p.add_argument('--aou-api-spec-fpath',
+    p.add_argument('--site-config',
+                   required=True,
+                   help='Path to a site-config file (see docs in refresh.py).')
+    p.add_argument('--aou-api-spec',
                    required=True,
                    help='Path to a custom aou-api-spec JSON file.')
-    p.add_argument('--db-spec-fpath',
+    p.add_argument('--db-spec',
                    required=True,
                    help='Path to a custom db-spec JSON file.')
     p.add_argument('--maxrows',
@@ -126,41 +146,62 @@ def main():
                    help='Maximum amount of rows you wish to retrieve (approx).'\
                         'Useful for testing your setup/configuration.')
     args = p.parse_args()
-    api_spec_fname = args.aou_api_spec_fpath
-    db_spec_fname = args.db_spec_fpath
-    api_spec = ks.slurp_json(api_spec_fname)
-    db_spec = ks.slurp_json(db_spec_fname)
-    maxrows = args.maxrows
-  except Exception, ex:
-    print(traceback.format_exc())
-    log.error(traceback.format_exc())
 
-  # (2) Ok, let's do the actual ETL process.
-  print('Starting api2db.')
-  log.info('Starting api2db.')
-  try:
+    cfg = ks.slurp_json(args.site_config)
+    PAIRED_ORGANIZATION_PARAM = cfg['paired-organization-params']
+    DB_TABLE_NAME = cfg['db-table-name']
+    SHOULD_RUN_AGENT_JOB = cfg['should-run-agent-job']
+    AGENT_JOB_NAME = cfg['agent-job-name']
+    AGENT_JOB_TIMEOUT = cfg['agent-job-timeout']
+    
+    api_spec_fname = args.aou_api_spec
+    log.info('api spec filename: ' + api_spec_fname)
+    api_spec = ks.slurp_json(api_spec_fname)
+
+    db_spec_fname = args.db_spec
+    db_spec = ks.slurp_json(db_spec_fname)
+
+    maxrows = args.maxrows
+
+    # (2) Ok, let's do the actual ETL process.
+    print('Starting api2db.')
+    log.info('Starting api2db.')
     result = aou.etl.api2db(api_spec, db_spec, DB_TABLE_NAME, 
                             PAIRED_ORGANIZATION_PARAM, maxrows)
     print('api2db ran OK.')
     log.info('api2db ran OK.')
-  except Exception, ex:
-    print(traceback.format_exc())
-    log.error(traceback.format_exc())
 
-  # (3) Optionally, run an agent job afterward.
-  if SHOULD_RUN_AGENT_JOB:
-    print('Starting agent job: {}'.format(AGENT_JOB_NAME))
-    log.info('Starting agent job: {}'.format(AGENT_JOB_NAME))
-    try:
+    # (3) Optionally, run an agent job afterward.
+    if SHOULD_RUN_AGENT_JOB:
+      print('Starting agent job: {}'.format(AGENT_JOB_NAME))
+      log.info('Starting agent job: {}'.format(AGENT_JOB_NAME))
       s.db_run_agent_job(db_spec, AGENT_JOB_NAME, AGENT_JOB_TIMEOUT)
       print('Agent job ran OK.') 
       log.info('Agent job ran OK.') 
-    except Exception, ex:
-      print(traceback.format_exc())
-      log.error(traceback.format_exc())
+
+    print('Done!')
+    log.info('Done!')
+    if cfg['should-send-emails']:
+      ks.send_email(
+        cfg['from-email'],
+        cfg['to-email'],
+        'AoU Refresh ' + ks.today_as_str(),
+        'AoU refresh success!')
+
+  except Exception, ex:
+    print(traceback.format_exc())
+    log.error(traceback.format_exc())
+    if cfg['should-send-emails']:
+      ks.send_email(
+        cfg['from-email'],
+        cfg['to-email'],
+        'AoU Refresh ' + ks.today_as_str(),
+        'There was an issue during the AoU data refresh. Please check the log.')
+
+  print('Exiting.')
+  log.info('Exiting.')
+
   
-  print('Done!')
-  log.info('Done!')
 
 #-------------------------------------------------------------------------------
 
