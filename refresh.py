@@ -29,10 +29,15 @@ Agent job can also be run after.
     source venv/bin/activate
     ./installdeps.sh
 
+Alternate invocation using a local install of virtualenv and python:
+
+    ~/.local/bin/virtualenv -p ~/python-2.7.16/bin/python2.7 venv
+
 ### Specification files
 
-Two specification files need to be passed into refresh.py on the command line:
+Several specification files need to be passed into refresh.py on the command line:
 
+* site-config file
 * AoU API specification file
 * Database specification file
 
@@ -60,8 +65,7 @@ Create a file named `enclave/db-spec.json` inside `enclave` with the contents:
 
     {"host": "X",
      "user": "X",
-     "password": "X",
-     "fully-qualified-table-name", "X"}
+     "password": "X"}
 
 This will be used to connect to your SQL Server instance.
 
@@ -92,6 +96,7 @@ to null (no quotes) if no filtering is needed.
 - You can optionally run a SQL Server agent job afterward. Configure the 
 last three items as desired. Set should-run-agent-job to false (no quotes)
 to skip this.
+
 ### Actually running refresh.py 
 
 Example:
@@ -196,8 +201,6 @@ def main():
 
   print('Exiting.')
   log.info('Exiting.')
-
-  
 
 #-------------------------------------------------------------------------------
 
