@@ -76,7 +76,7 @@ This will be used to connect to your SQL Server instance.
 ### Site-specific configuration items
 
 There are some site-specific config items that need to be configured. Create the file
-enclave/site-config.py with the following key-value pairs:
+enclave/site-config.json with the following key-value pairs:
 
     {"should-send-emails": true,
      "from-email": "from email address",
