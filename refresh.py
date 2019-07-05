@@ -83,8 +83,11 @@ enclave/site-config.json with the following key-value pairs:
      "to-email": "to email address",
      "paired-organization-params": {"organization": "COLUMBIA_WEILL"},
      "db-table-name": "dm_aou.dbo.healthpro2",
+     "should-update-metadata": true,
+     "metadata-table-name": "dm_aou.dbo.metadata",
      "should-run-agent-job": true,
      "agent-job-name": "DM_AOU REDCap Refresh Decoupled",
+     "agent-job-table-name": "rc_prj_2525",
      "agent-job-timeout": 20000}
 
 - Set should-send-emails to false (no quotes) to skip this.
@@ -96,6 +99,21 @@ to null (no quotes) if no filtering is needed.
 - You can optionally run a SQL Server agent job afterward. Configure the 
 last three items as desired. Set should-run-agent-job to false (no quotes)
 to skip this.
+
+- If you want to keep a record of when data is updated, set "should-update-metadata" to
+true (no quotes) and create a table in your database like so:
+
+    create table [dm_aou].[dbo].[metadata] (
+      rid       bigint not null identity(1,1) primary key
+    , ts        datetime default getdate() not null
+    , tag       nvarchar(max) not null
+    , details   nvarchar(max) null
+    );
+
+... or set "should-update-metadata" to false (no quotes) to skip this.
+
+- "agent-job-table-name" is solely for recording the datetime in
+the metadata table after the agent job runs.
 
 ### Actually running refresh.py 
 
@@ -127,6 +145,14 @@ log = ks.smart_logger('refresh')
 
 #-------------------------------------------------------------------------------
 
+def update_metadata_for(db_spec, cfg, table_name):
+  # Get table name without db or schema portions, etc.
+  tbl = table_name[table_name.rfind('.')+1:].replace('[','').replace(']','')
+  # We're just inserting one row; but we use db_insert_many for convenience.
+  s.db_insert_many(db_spec, cfg['metadata-table-name'],
+                   [{'tag': tbl, 'details': 'refreshed'}])
+  log.info('Inserted new row into metadata table.')
+
 def main():
   # (1) Process any command-line options.
   log.info('========== refresh.py started ============')
@@ -149,6 +175,7 @@ def main():
     args = p.parse_args()
 
     cfg = ks.slurp_json(args.site_config)
+    log.info('site config filename: ' + args.site_config)
     PAIRED_ORGANIZATION_PARAM = cfg['paired-organization-params']
     DB_TABLE_NAME = cfg['db-table-name']
     SHOULD_RUN_AGENT_JOB = cfg['should-run-agent-job']
@@ -160,6 +187,7 @@ def main():
     api_spec = ks.slurp_json(api_spec_fname)
 
     db_spec_fname = args.db_spec
+    log.info('db spec filename: ' + db_spec_fname)
     db_spec = ks.slurp_json(db_spec_fname)
 
     maxrows = args.maxrows
@@ -171,6 +199,8 @@ def main():
                             PAIRED_ORGANIZATION_PARAM, maxrows)
     print('api2db ran OK.')
     log.info('api2db ran OK.')
+    if cfg['should-update-metadata']:
+      update_metadata_for(db_spec, cfg, DB_TABLE_NAME)
 
     # (3) Optionally, run an agent job afterward.
     if SHOULD_RUN_AGENT_JOB:
@@ -179,6 +209,10 @@ def main():
       s.db_run_agent_job(db_spec, AGENT_JOB_NAME, AGENT_JOB_TIMEOUT)
       print('Agent job ran OK.') 
       log.info('Agent job ran OK.') 
+      if cfg['should-update-metadata']:
+        update_metadata_for(db_spec, cfg, cfg['agent-job-table-name'])
+    else:
+      log.info('Won\'t run agent job.')
 
     print('Done!')
     log.info('Done!')
