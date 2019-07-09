@@ -1,4 +1,4 @@
-SHELL=/bin/bash
+#!/bin/sh
 # Example to run at 4 am each day: 
 # 00 4 * * * /home/ras3005/boost/aourefresh/runkeycycle.sh > /dev/null
 cd /home/ras3005/boost/aourefresh
