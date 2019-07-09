@@ -1,3 +1,4 @@
+#!/bin/sh
 if [ -z "${VIRTUAL_ENV+x}" ]; then
   echo "need to be inside a virtualenv"
   exit 1
