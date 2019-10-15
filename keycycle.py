@@ -75,8 +75,8 @@ def main():
     print('Error. Please check log.')
     if cfg['should-send-emails']:
       ks.send_email(
-        cfg['to-email'],
         cfg['from-email'],
+        cfg['to-email'],
         'AoU GCP Key Cycling ' + ks.today_as_str(),
         'There was an issue during key cycling. Please check the log.')
 
