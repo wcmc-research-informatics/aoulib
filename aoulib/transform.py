@@ -128,7 +128,10 @@ mappings_one_to_one = [
   {'hp':'DV-only EHR Sharing Status', 'api':'consentForDvElectronicHealthRecordsSharing', 'func':'api2hp_status'},
   {'hp':'DV-only EHR Sharing Date', 'api':'consentForDvElectronicHealthRecordsSharingTime', 'func':'api2hp_datetime'},
 
-  {'hp':'Login Phone', 'api':'loginPhoneNumber', 'func':'api2hp_basic'}
+  {'hp':'Login Phone', 'api':'loginPhoneNumber', 'func':'api2hp_basic'},
+
+  # "Core Participant Date" added Feb 2020. See WQC 353/438.
+  {'hp':'Core Participant Date', 'api':'enrollmentStatusCoreStoredSampleTime', 'func':'api2hp_datetime'},
 
 ]
 
