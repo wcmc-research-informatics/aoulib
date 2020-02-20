@@ -132,6 +132,8 @@ mappings_one_to_one = [
 
   # "Core Participant Date" added Feb 2020. See WQC 353/438.
   {'hp':'Core Participant Date', 'api':'enrollmentStatusCoreStoredSampleTime', 'func':'api2hp_datetime'},
+  # Added Feb 2020; no HP equivalent.
+  {'hp':'enrollmentStatusCoreOrderedSampleTime', 'api':'enrollmentStatusCoreOrderedSampleTime', 'func':'api2hp_datetime'},
 
 ]
 

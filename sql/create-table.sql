@@ -79,6 +79,7 @@ CREATE TABLE [dm_aou].[dbo].[healthpro] (
 ,[DV-only EHR Sharing Date] DATE NULL
 ,[Login Phone] NVARCHAR(32) NULL
 ,[Core Participant Date] DATETIME2 NULL
+,[enrollmentStatusCoreOrderedSampleTime] DATETIME2 NULL
 )
 
 
