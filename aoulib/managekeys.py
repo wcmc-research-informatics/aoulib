@@ -1,21 +1,11 @@
-from __future__ import division
-from __future__ import print_function
 import os
 import base64
 import json
 import datetime
 from google.oauth2 import service_account # from google-auth
 import googleapiclient.discovery # from google-api-python-client
-import kickshaws as ks
-import core as c
-
-__all__ = [ 'get_key_id',
-            'list_keys',
-            'disp_keys', # display keys and creation dates in console
-            'create_key',
-            'create_key_to_file',
-            'delete_key',
-            'cycle_keys']
+from . import core as c
+from .utils import *
 
 def _build_full_key_name(api_spec, private_key_id):
   '''Returns the 'name' of a key as it appears in the results
@@ -33,7 +23,7 @@ def _id_from_key_name(key_name):
 
 def get_key_id(api_spec):
   '''Returns the private key ID of key file specified by api_spec'''
-  return ks.slurp_json(api_spec['path-to-key-file'])['private_key_id']
+  return slurpj(api_spec['path-to-key-file'])['private_key_id']
 
 def _make_svc(api_spec):
   '''Returns an object of type googleapiclient.discovery.Resource.'''
@@ -84,7 +74,7 @@ def create_key_to_file(api_spec):
   key_file_contents = base64.b64decode(key_info['privateKeyData'])
   timestamp = str(datetime.datetime.now())
   fname = 'key-' + timestamp.replace(' ','-').replace(':','-') + '.json'
-  ks.spit(fname, key_file_contents)
+  spit(fname, key_file_contents)
   return fname
 
 def delete_key(api_spec, private_key_id):
@@ -101,14 +91,15 @@ def cycle_keys(api_spec):
   4. Writes a new key file (same name as what was current).
   Returns a map containing the old and new key IDs.
   '''
-  # Don't delete the old before you create the new!
   new_key_info = create_key(api_spec)
-  old_private_key_id = ks.slurp_json(
+  old_private_key_id = slurpj(
                           api_spec['path-to-key-file'])['private_key_id']
-  delete_key(api_spec, old_private_key_id)
   os.rename(api_spec['path-to-key-file'], api_spec['path-to-key-file'] + '.old')
   key_file_data = base64.b64decode(new_key_info['privateKeyData'])
-  ks.spit(api_spec['path-to-key-file'], key_file_data)
+  spit(api_spec['path-to-key-file'], key_file_data)
+  # Don't delete the old before you successfully create the new
+  delete_key(api_spec, old_private_key_id)
   return {'old-private-key-id': old_private_key_id,
           'new-private-key-id': json.loads(key_file_data)['private_key_id']}
+
 

@@ -1,10 +1,12 @@
-from __future__ import division
-from __future__ import print_function
 import argparse
 import json
 import traceback
 import aoulib as aou
-import kickshaws as ks
+from aoulib.utils import *
+
+import sys
+if sys.version_info[0] < 3:
+    raise Exception('Requires Python 3')
 
 '''
 # keycycle.py
@@ -43,7 +45,7 @@ environment.
 
 '''
 
-log = ks.smart_logger('keycycle')
+log = smart_logger('keycycle')
 
 def main():
   log.info('========== keycycle.sh started ============')
@@ -57,10 +59,10 @@ def main():
                    required=True,
                    help='Path to a custom aou-api-spec JSON file.')
     args = p.parse_args()
-    cfg = ks.slurp_json(args.site_config)
+    cfg = slurpj(args.site_config)
     api_spec_fname = args.aou_api_spec_fpath
     log.info('api spec filename: ' + api_spec_fname)
-    api_spec = ks.slurp_json(api_spec_fname)
+    api_spec = slurpj(api_spec_fname)
 
     # Do the actual key cycling.
     msg = 'Key ID to delete is: ' + aou.managekeys.get_key_id(api_spec)
@@ -69,16 +71,17 @@ def main():
     msg = 'Keys cycled. ' 
     log.info(msg + str(result))
     print(msg)
+    log.info('========== keycycle.sh done. ============')
 
-  except Exception, ex:
+  except Exception as ex:
     log.error(traceback.format_exc())
     print('Error. Please check log.')
     if cfg['should-send-emails']:
-      ks.send_email(
-        cfg['from-email'],
-        cfg['to-email'],
-        'AoU GCP Key Cycling ' + ks.today_as_str(),
-        'There was an issue during key cycling. Please check the log.')
+      send_email(
+        frm=cfg['from-email'],
+        to=cfg['to-email'],
+        subj='AoU GCP Key Cycling ' + today_as_str(),
+        body='There was an issue during key cycling. Please check the log.')
 
 if __name__ == '__main__': main()
 

@@ -80,6 +80,8 @@ CREATE TABLE [dm_aou].[dbo].[healthpro] (
 ,[Login Phone] NVARCHAR(32) NULL
 ,[Core Participant Date] DATETIME2 NULL
 ,[enrollmentStatusCoreOrderedSampleTime] DATETIME2 NULL
+,[Biospecimen Status] [nvarchar](max) NULL
+,[4 mL EDTA Sample Order Status] [nvarchar](max) NULL
+,[Saliva Sample Order Status] [nvarchar](max) NULL
 )
-
 

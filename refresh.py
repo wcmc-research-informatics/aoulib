@@ -1,11 +1,14 @@
-from __future__ import division
-from __future__ import print_function
 import argparse
 import json
 import traceback
 import aoulib as aou
-import kickshaws as ks
-import sqlsrvwrapper as s
+import aoulib.db as s
+from aoulib.db import AgentJobException
+from aoulib.utils import *
+
+import sys
+if sys.version_info[0] < 3:
+    raise Exception('Requires Python 3')
 
 '''
 # refresh.py
@@ -20,18 +23,18 @@ Agent job can also be run after.
 
 ### Requirements
 
-* Known to work with Python 2.7.16 and a modern version of SQL Server.
+* Known to work with Python 3.6 and a modern version of SQL Server.
 
 ### Virtualenv and dependencies
 
     mkdir venv
-    virtualenv -p python2 venv
+    virtualenv -p python3.6 venv
     source venv/bin/activate
     ./installdeps.sh
 
 Alternate invocation using a local install of virtualenv and python:
 
-    ~/.local/bin/virtualenv -p ~/python-2.7.16/bin/python2.7 venv
+    ~/.local/bin/virtualenv -p ~/python-3.6.10/bin/python3.6 venv
 
 ### Specification files
 
@@ -141,7 +144,7 @@ environment.
 
 #-------------------------------------------------------------------------------
 
-log = ks.smart_logger('refresh')
+log = smart_logger('refresh')
 
 #-------------------------------------------------------------------------------
 
@@ -174,7 +177,7 @@ def main():
                         'Useful for testing your setup/configuration.')
     args = p.parse_args()
 
-    cfg = ks.slurp_json(args.site_config)
+    cfg = slurpj(args.site_config)
     log.info('site config filename: ' + args.site_config)
     PAIRED_ORGANIZATION_PARAM = cfg['paired-organization-params']
     DB_TABLE_NAME = cfg['db-table-name']
@@ -184,11 +187,11 @@ def main():
     
     api_spec_fname = args.aou_api_spec
     log.info('api spec filename: ' + api_spec_fname)
-    api_spec = ks.slurp_json(api_spec_fname)
+    api_spec = slurpj(api_spec_fname)
 
     db_spec_fname = args.db_spec
     log.info('db spec filename: ' + db_spec_fname)
-    db_spec = ks.slurp_json(db_spec_fname)
+    db_spec = slurpj(db_spec_fname)
 
     maxrows = args.maxrows
 
@@ -204,35 +207,43 @@ def main():
 
     # (3) Optionally, run an agent job afterward.
     if SHOULD_RUN_AGENT_JOB:
-      print('Starting agent job: {}'.format(AGENT_JOB_NAME))
-      log.info('Starting agent job: {}'.format(AGENT_JOB_NAME))
-      s.db_run_agent_job(db_spec, AGENT_JOB_NAME, AGENT_JOB_TIMEOUT)
-      print('Agent job ran OK.') 
-      log.info('Agent job ran OK.') 
-      if cfg['should-update-metadata']:
-        update_metadata_for(db_spec, cfg, cfg['agent-job-table-name'])
+      try:
+        print('Starting agent job: {}'.format(AGENT_JOB_NAME))
+        log.info('Starting agent job: {}'.format(AGENT_JOB_NAME))
+        s.db_run_agent_job(db_spec, AGENT_JOB_NAME, AGENT_JOB_TIMEOUT)
+        print('Agent job ran OK.') 
+        log.info('Agent job ran OK.') 
+        if cfg['should-update-metadata']:
+          update_metadata_for(db_spec, cfg, cfg['agent-job-table-name'])
+      except AgentJobException as ex:
+        log.error(str(ex) + '\n' +  traceback.format_exc())
+        if cfg['should-send-emails']:
+          send_email(
+            frm=cfg['from-email'],
+            to=cfg['to-email'],
+            subj='AoU Data Refresh - ' + today_as_str(),
+            body=str(ex))
+        # Bail.
+        return
     else:
       log.info('Won\'t run agent job.')
-
     print('Done!')
     log.info('Done!')
     if cfg['should-send-emails']:
-      ks.send_email(
-        cfg['from-email'],
-        cfg['to-email'],
-        'AoU Refresh ' + ks.today_as_str(),
-        'AoU refresh success!')
-
-  except Exception, ex:
-    print(traceback.format_exc())
-    log.error(traceback.format_exc())
-    if cfg['should-send-emails']:
-      ks.send_email(
-        cfg['from-email'],
-        cfg['to-email'],
-        'AoU Refresh ' + ks.today_as_str(),
-        'There was an issue during the AoU data refresh. Please check the log.')
-
+      send_email(
+        frm=cfg['from-email'],
+        to=cfg['to-email'],
+        subj='AoU Data Refresh - ' + today_as_str(),
+        body='AoU data refresh success!')
+  except Exception as ex:
+      print(traceback.format_exc())
+      log.error(traceback.format_exc())
+      if cfg['should-send-emails']:
+        send_email(
+          frm=cfg['from-email'],
+          to=cfg['to-email'],
+          subj='AoU Data Refresh - ' + today_as_str(),
+          body='There was an issue during the AoU data refresh. Please check the log.')
   print('Exiting.')
   log.info('Exiting.')
 

@@ -1,6 +1,3 @@
-from __future__ import division
-from __future__ import print_function
-
 import sys
 import dateutil.parser
 import pytz
@@ -134,6 +131,8 @@ mappings_one_to_one = [
   {'hp':'Core Participant Date', 'api':'enrollmentStatusCoreStoredSampleTime', 'func':'api2hp_datetime'},
   # Added Feb 2020; no HP equivalent.
   {'hp':'enrollmentStatusCoreOrderedSampleTime', 'api':'enrollmentStatusCoreOrderedSampleTime', 'func':'api2hp_datetime'},
+  {'hp':'Biospecimen Status', 'api':'biospecimenStatus', 'func':'api2hp_basic'},
+  {'hp':'4 mL EDTA Sample Order Status', 'api':'sampleOrderStatus1ED04', 'func':'api2hp_basic'},
 
 ]
 
@@ -413,6 +412,7 @@ def api2hp_mult_sample_resolve(api_row, status_fields, time_fields):
       return ['1', api2hp_datetime(api_row.get(time_fields[i], ''))]
   return ['0', ''] 
 
+
 #------------------------------------------------------------------------------
 # driver
 
@@ -445,6 +445,15 @@ def into_hp_row(api_row):
     out[mappings_one_to_many[i]['hp']] = status
     out[mappings_one_to_many[i + 1]['hp']] = time
     i += 2
+  
+  # Sal order
+  sal_order_status_col_name = 'Saliva Sample Order Status'
+  if api_row.get('sampleOrderStatus1SAL2', '*') not in ('*', 'UNSET'):
+    out[sal_order_status_col_name] = api_row['sampleOrderStatus1SAL2']
+  else:
+    out[sal_order_status_col_name] = api_row.get('sampleOrderStatus1SAL','')
+
+  #done
   return out
 
 #------------------------------------------------------------------------------
@@ -517,5 +526,4 @@ CodeBook:
 
 '''
 #------------------------------------------------------------------------------
-
 
