@@ -133,7 +133,8 @@ mappings_one_to_one = [
   {'hp':'enrollmentStatusCoreOrderedSampleTime', 'api':'enrollmentStatusCoreOrderedSampleTime', 'func':'api2hp_datetime'},
   {'hp':'Biospecimen Status', 'api':'biospecimenStatus', 'func':'api2hp_basic'},
   {'hp':'4 mL EDTA Sample Order Status', 'api':'sampleOrderStatus1ED04', 'func':'api2hp_basic'},
-
+  {'hp':'gRoR Consent Status', 'api':'consentForGenomicsROR', 'func':'api2hp_status'},
+  {'hp':'gRoR Consent Date', 'api':'consentForGenomicsRORAuthored', 'func':'api2hp_datetime'},
 ]
 
 def api2hp_basic(x):

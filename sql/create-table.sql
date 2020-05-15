@@ -83,5 +83,7 @@ CREATE TABLE [dm_aou].[dbo].[healthpro] (
 ,[Biospecimen Status] [nvarchar](max) NULL
 ,[4 mL EDTA Sample Order Status] [nvarchar](max) NULL
 ,[Saliva Sample Order Status] [nvarchar](max) NULL
+,[gRoR Consent Status] [nvarchar](2) NULL
+,[gRoR Consent Date] datetime2 NULL
 )
 
