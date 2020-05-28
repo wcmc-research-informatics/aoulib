@@ -85,5 +85,11 @@ CREATE TABLE [dm_aou].[dbo].[healthpro] (
 ,[Saliva Sample Order Status] [nvarchar](max) NULL
 ,[gRoR Consent Status] [nvarchar](2) NULL
 ,[gRoR Consent Date] datetime2 NULL
+,[COPE May PPI Survey Complete] [nvarchar](2) NULL
+,[COPE June PPI Survey Complete] [nvarchar](2) NULL
+,[COPE July PPI Survey Complete] [nvarchar](2) NULL
+,[COPE May PPI Survey Completion Date] datetime2 NULL
+,[COPE June PPI Survey Completion Date] datetime2 NULL
+,[COPE July PPI Survey Completion Date] datetime2 NULL
 )
 

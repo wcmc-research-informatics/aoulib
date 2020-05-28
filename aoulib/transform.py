@@ -135,6 +135,15 @@ mappings_one_to_one = [
   {'hp':'4 mL EDTA Sample Order Status', 'api':'sampleOrderStatus1ED04', 'func':'api2hp_basic'},
   {'hp':'gRoR Consent Status', 'api':'consentForGenomicsROR', 'func':'api2hp_status'},
   {'hp':'gRoR Consent Date', 'api':'consentForGenomicsRORAuthored', 'func':'api2hp_datetime'},
+
+  # COPE fields
+  {'hp':'COPE May PPI Survey Complete', 'api':'questionnaireOnCopeMay', 'func':'api2hp_status'},
+  {'hp':'COPE May PPI Survey Completion Date', 'api':'questionnaireOnCopeMayAuthored', 'func':'api2hp_datetime'},
+  {'hp':'COPE June PPI Survey Complete', 'api':'questionnaireOnCopeJune', 'func':'api2hp_status'},
+  {'hp':'COPE June PPI Survey Completion Date', 'api':'questionnaireOnCopeJuneAuthored', 'func':'api2hp_datetime'},
+  {'hp':'COPE July PPI Survey Complete', 'api':'questionnaireOnCopeJuly', 'func':'api2hp_status'},
+  {'hp':'COPE July PPI Survey Completion Date', 'api':'questionnaireOnCopeJulyAuthored', 'func':'api2hp_datetime'},
+
 ]
 
 def api2hp_basic(x):
