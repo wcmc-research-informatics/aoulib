@@ -66,7 +66,7 @@ _Note:_ please confirm the URL and project, but the one above will most likely b
 
 Create a file named `enclave/db-spec.json` inside `enclave` with the contents:
 
-    {"host": "X",
+    {"server": "X",
      "user": "X",
      "password": "X"}
 
