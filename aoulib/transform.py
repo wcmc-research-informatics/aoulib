@@ -143,6 +143,7 @@ mappings_one_to_one = [
   {'hp':'COPE June PPI Survey Completion Date', 'api':'questionnaireOnCopeJuneAuthored', 'func':'api2hp_datetime'},
   {'hp':'COPE July PPI Survey Complete', 'api':'questionnaireOnCopeJuly', 'func':'api2hp_status'},
   {'hp':'COPE July PPI Survey Completion Date', 'api':'questionnaireOnCopeJulyAuthored', 'func':'api2hp_datetime'},
+  {'hp':'income', 'api':'income', 'func':'api2hp_basic'},
 
 ]
 
