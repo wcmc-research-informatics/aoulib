@@ -1,7 +1,13 @@
 import datetime
-from db import *
+from dateutil import parser
+from .db import *
 
 COLUMN_NAME = 'Active Retention Date'
+
+def str2date(x):
+    if x.strip() == '':
+        x = '1900-01-01'
+    return parser.parse(x).date()
 
 def calc_val(rcd):
     '''
@@ -35,22 +41,20 @@ def calc_val(rcd):
     retention_status    = rcd['retentionEligibleStatus']
     # PPI4 - Healthcare Access PPI Module
     access_ppi          = rcd['Access PPI Survey Complete']
-    access_ppi_dt       = rcd['Access PPI Survey Completion Date']
+    access_ppi_dt       = str2date(rcd['Access PPI Survey Completion Date'])
     # Family Health PPI Module
     fam_ppi             = rcd['Family PPI Survey Complete']
-    fam_ppi_dt          = rcd['Family PPI Survey Completion Date']
+    fam_ppi_dt          = str2date(rcd['Family PPI Survey Completion Date'])
     # PPI6 - Medical History PPI Module 
     hist_ppi            = rcd['Hist PPI Survey Complete']
-    hist_ppi_dt         = rcd['Hist PPI Survey Completion Date']
+    hist_ppi_dt         = str2date(rcd['Hist PPI Survey Completion Date'])
     # PPI7 - COPE PPI Module (May, June, or July)
-    # Unlike others above, these are datetime the db, so 
-    # call .date() to convert to date.
-    cope_may            = rcd['COPE May PPI Survey Complete']
-    cope_may_dt         = rcd['COPE May PPI Survey Completion Date'].date()
-    cope_june           = rcd['COPE June PPI Survey Complete']
-    cope_june_dt        = rcd['COPE June PPI Survey Completion Date'].date()
-    cope_july           = rcd['COPE July PPI Survey Complete']
-    cope_july_dt        = rcd['COPE July PPI Survey Completion Date'].date()
+    cope_may        = rcd['COPE May PPI Survey Complete']
+    cope_may_dt     = str2date(rcd['COPE May PPI Survey Completion Date'])
+    cope_june       = rcd['COPE June PPI Survey Complete']
+    cope_june_dt    = str2date(rcd['COPE June PPI Survey Completion Date'])
+    cope_july       = rcd['COPE July PPI Survey Complete']
+    cope_july_dt    = str2date(rcd['COPE July PPI Survey Completion Date'])
 
     # Determine what date 547 days ago was.
     begin_dt = datetime.datetime.now().date() - datetime.timedelta(days=547)
@@ -88,9 +92,7 @@ def calc_val(rcd):
     return out
 
 #------------------------------------------------------------------------------
-# db functions
-# Use these for updating existing db table.
-# (See also `add_to_all` below for non-db strategy.)
+# db 
 
 def add_column_if_needed(db_spec, db_table_name):
     '''
@@ -109,34 +111,4 @@ def add_column_if_needed(db_spec, db_table_name):
         stmt = ('alter table [{}].[{}] add [{}] [nvarchar](32) NULL'
                 ''.format(schema, table, COLUMN_NAME))
         db_stmt(db_spec, stmt)
-
-def update_row_with_val(db_spec, db_table_name, pmi_id, val):
-    stmt = ("update {} set [{}] = '{}' where [PMI ID] = '{}'"
-            ''.format(db_table_name, COLUMN_NAME, val, pmi_id))
-    db_stmt(db_spec, stmt)
-
-def update_all_rows(db_spec, db_table_name):
-    '''Returns row count.'''
-    print(datetime.datetime.now())
-    add_column_if_needed(db_spec, db_table_name)
-    data = db_qy(db_spec, 'select * from ' + db_table_name)
-    tally = 0
-    for row in data:
-        art = calc_val(row)
-        print(art)
-        update_row_with_val(db_spec, db_table_name, row['PMI ID'], art)
-        tally += 1
-    print(datetime.datetime.now())
-    return tally
-
-#------------------------------------------------------------------------------
-# `add_to_all` updates a Python dataset (no db involved).
-
-def add_to_all(data):
-    '''Given a seq of maps, calculate the active_retention_date
-    for each record and add a new key-value pair to the record.
-    Modifies the record in-place.
-    Returns None.
-    '''
-    pass
 
