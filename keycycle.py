@@ -47,6 +47,17 @@ environment.
 
 log = smart_logger('keycycle')
 
+# email footer
+emfooter = '''\n\n
+Nexus articles:
+
+AoU Email Notifications At A Glance:
+https://nexus.weill.cornell.edu/display/ARCH/AoU+Email+Notifications+At+a+Glance
+
+AoU Data Refresh and GCP Key Cycling
+https://nexus.weill.cornell.edu/pages/viewpage.action?pageId=111677100 '''
+
+
 def main():
   log.info('========== keycycle.sh started ============')
   try:
@@ -81,7 +92,8 @@ def main():
         frm=cfg['from-email'],
         to=cfg['to-email'],
         subj='AoU GCP Key Cycling ' + today_as_str(),
-        body='There was an issue during key cycling. Please check the log.')
+        body=('There was an issue during key cycling. Please check the log.'
+              + emfooter))
 
 if __name__ == '__main__': main()
 

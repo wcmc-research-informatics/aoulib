@@ -146,6 +146,18 @@ environment.
 
 log = smart_logger('refresh')
 
+
+# email footer
+emfooter = '''\n\n
+Nexus articles:
+
+AoU Email Notifications At A Glance:
+https://nexus.weill.cornell.edu/display/ARCH/AoU+Email+Notifications+At+a+Glance
+
+AoU Data Refresh and GCP Key Cycling
+https://nexus.weill.cornell.edu/pages/viewpage.action?pageId=111677100 '''
+
+
 #-------------------------------------------------------------------------------
 
 def update_metadata_for(db_spec, cfg, table_name):
@@ -221,8 +233,10 @@ def main():
           send_email(
             frm=cfg['from-email'],
             to=cfg['to-email'],
-            subj='AoU Data Refresh - ' + today_as_str(),
-            body=str(ex))
+            subj='AoU Data Refresh - Error - ' + today_as_str(),
+            body=('HealthPro table for this run: ' + DB_TABLE_NAME + '\n\n' 
+                  + 'AgentJobException occurred. ' + '\n\n' + str(ex)
+                  + emfooter))
         # Bail.
         return
     else:
@@ -233,8 +247,9 @@ def main():
       send_email(
         frm=cfg['from-email'],
         to=cfg['to-email'],
-        subj='AoU Data Refresh - ' + today_as_str(),
-        body='AoU data refresh success!')
+        subj='AoU Data Refresh - Success - ' + today_as_str(),
+        body=('HealthPro table for this run: ' + DB_TABLE_NAME + '\n\n' 
+              + 'AoU data refresh success!' + emfooter))
   except Exception as ex:
       print(traceback.format_exc())
       log.error(traceback.format_exc())
@@ -242,8 +257,10 @@ def main():
         send_email(
           frm=cfg['from-email'],
           to=cfg['to-email'],
-          subj='AoU Data Refresh - ' + today_as_str(),
-          body='There was an issue during the AoU data refresh. Please check the log.')
+          subj='AoU Data Refresh - Error - ' + today_as_str(),
+          body=('HealthPro table for this run: ' + DB_TABLE_NAME + '\n\n' 
+                + 'There was an issue during the AoU data refresh. '
+                + 'Please check the log.' + emfooter))
   print('Exiting.')
   log.info('Exiting.')
 

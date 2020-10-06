@@ -8,6 +8,16 @@ def db_test_conn(db_spec):
   qy = 'select 1 as test'
   return db_qy(db_spec, qy)
 
+def db_qy(db_spec, qy):
+    #if 'database' not in db_spec:
+    #    raise NoDatabaseSpecifiedException
+    # Regarding login_timeout, see: https://github.com/denisenkom/pytds/issues/37
+    # It prevents random errors, which pytds otherwise seems to have an issue with.
+    with pytds.connect(**db_spec, as_dict=True, login_timeout=1200) as conn:
+        cursor = conn.cursor()
+        cursor.execute(qy)
+        return cursor.fetchall()
+
 def db_stmt(db_spec, stmt):
   '''Execute a SQL DDL/DML statement. Doesn't return anything.'''
   with pytds.connect(**db_spec) as conn:
@@ -105,4 +115,15 @@ def db_run_agent_job(db_spec, job_name, timeout_threshold=60):
                     ''.format(job_name))
   else:
     return True 
+
+def db_get_table_info(db_spec, schema, table):
+    '''Returns data about a table's columns and data types.'''
+    if 'database' not in db_spec:
+        raise NoDatabaseSpecifiedException
+    qy = ("select ordinal_position, column_name, data_type, "
+          "character_maximum_length, is_nullable "
+          "from information_schema.columns "
+          "where table_schema ='{}' "
+          "and table_name = '{}'".format(schema, table))
+    return db_qy(db_spec, qy)
 
