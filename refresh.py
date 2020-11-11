@@ -69,7 +69,8 @@ Create a file named `enclave/db-spec.json` inside `enclave` with the contents:
 
     {"server": "X",
      "user": "X",
-     "password": "X"}
+     "password": "X",
+     "database": "DM_AOU"}
 
 This will be used to connect to your SQL Server instance.
 
