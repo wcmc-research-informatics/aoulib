@@ -23,18 +23,19 @@ Agent job can also be run after.
 
 ### Requirements
 
-* Known to work with Python 3.6 and a modern version of SQL Server.
+* Currently targets Python 3.9 and a modern version of SQL Server; the 
+  SQL Server must serve a CA-issued certificate.
 
 ### Virtualenv and dependencies
 
     mkdir venv
-    virtualenv -p python3.6 venv
+    virtualenv -p pythonX.Y venv
     source venv/bin/activate
     ./installdeps.sh
 
 Alternate invocation using a local install of virtualenv and python:
 
-    ~/.local/bin/virtualenv -p ~/python-3.6.10/bin/python3.6 venv
+    ~/.local/bin/virtualenv -p ~/python-X.Y.Z/bin/pythonX.Y venv
 
 ### Specification files
 

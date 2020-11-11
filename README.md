@@ -14,7 +14,7 @@ It also comes with two Python modules useful for automating data transfer and ke
 Additional notes:  
 
 * If you need to test your AoU Data Ops API connectivity at a basic level, see the script in the `apitest` folder.
-* Targets Python 3.6
+* Targets Python 3.9.0
 
 Useful gcloud commands:
 
