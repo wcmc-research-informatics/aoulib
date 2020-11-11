@@ -31,6 +31,9 @@ if pytds.__version__ != '1.9.0':
     raise Exception('Needs pytds version 1.9.1; version {} is installed.'.format(
                     pytds.__version__))
 
+class AgentJobException(Exception):
+  pass
+
 class NoDatabaseSpecifiedException(Exception):
     '''Raised when db_spec is missing the `database` key-value pair
      but the called function required it.'''
