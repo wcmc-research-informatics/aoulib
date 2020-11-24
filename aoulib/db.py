@@ -1,3 +1,4 @@
+import time
 import pytds
 import certifi
 
@@ -6,7 +7,7 @@ import certifi
 
 This module requires the following packages be installed:
 
-    - python-tds==1.9.1 (this is the package name for pytds)
+    - python-tds(this is the package name for pytds)
     - pyOpenSSL
 
 Also recommended:
@@ -15,9 +16,15 @@ Also recommended:
 
 E.g.,
 
-    pip install pyOpenSSL bitarray python-tds==1.9.1
+    pip install pyOpenSSL bitarray git+https://github.com/denisenkom/pytds
 
-Currently, pytds version 1.9.1 is required.
+Or, in a requirements.txt file:
+
+pyOpenSSL==19.1.0
+certifi==2020.11.8
+bitarray==1.5.3
+python-tds @ git+https://github.com/denisenkom/pytds/#egg=python-tds
+
 
 ==============================================================================
 '''
@@ -25,11 +32,12 @@ Currently, pytds version 1.9.1 is required.
 QUERY = 'query'
 NONQUERY = 'nonquery'
 
+# Nov 2020 not checking version; moved to latest version from git master branch.
 # Require version 1.9.1 of pytds.
 # Note: version 1.9.1 confusingly returns '1.9.0'.
-if pytds.__version__ != '1.9.0':
-    raise Exception('Needs pytds version 1.9.1; version {} is installed.'.format(
-                    pytds.__version__))
+#if pytds.__version__ != '1.9.0':
+#    raise Exception('Needs pytds version 1.9.1; version {} is installed.'.format(
+#                    pytds.__version__))
 
 class AgentJobException(Exception):
   pass
@@ -132,7 +140,7 @@ def db_trunc_table(db_spec, table_name):
 def db_executemany(db_spec, stmt, tuples):
     '''Execute a parameterized statement for a collection of rows.
     tuples should be a sequence of tuples (not maps).'''
-    conn = db_make_secure_conn_obj(dp_spec)
+    conn = db_make_secure_conn_obj(db_spec)
     cur = conn.cursor()
     cur.executemany(stmt, tuples)
     conn.close()
@@ -238,7 +246,7 @@ def db_table_does_exist(db_spec, qtn):
 
 def db_start_job(db_spec, job_name):
     '''Start a SQL Server Agent job. Returns immediately.'''
-    conn = db_make_secure_conn_obj(dp_spec)
+    conn = db_make_secure_conn_obj(db_spec)
     cur = conn.cursor()
     cur.callproc('msdb.dbo.sp_start_job', (job_name,))
     conn.close()
@@ -246,7 +254,7 @@ def db_start_job(db_spec, job_name):
 def db_is_job_idle(db_spec, job_name):
     '''job_name should be a SQL Server Agent job name. Returns boolean.'''
     result = []
-    conn = db_make_secure_conn_obj(dp_spec)
+    conn = db_make_secure_conn_obj(db_spec)
     cur = conn.cursor()
     stmt = "exec msdb.dbo.sp_help_job @job_name=N'" + job_name + "'"
     cur.execute(stmt) 
@@ -257,7 +265,7 @@ def db_is_job_idle(db_spec, job_name):
 def db_last_run_succeeded(db_spec, job_name):
     '''job_name should be a SQL Server Agent job name. Returns boolean.'''
     result = []
-    conn = db_make_secure_conn_obj(dp_spec)
+    conn = db_make_secure_conn_obj(db_spec)
     cursor = conn.cursor()
     stmt = "exec msdb.dbo.sp_help_job @job_name=N'" + job_name + "'"
     cursor.execute(stmt) 

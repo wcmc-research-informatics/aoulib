@@ -6,5 +6,5 @@ pytz==2020.1
 pyOpenSSL==19.1.0
 certifi==2020.11.8
 bitarray==1.5.3
-python-tds==1.9.1
+python-tds @ git+https://github.com/denisenkom/pytds/#egg=python-tds
 
