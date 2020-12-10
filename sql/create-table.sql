@@ -93,5 +93,7 @@ CREATE TABLE [dm_aou].[dbo].[healthpro] (
 ,[COPE July PPI Survey Completion Date] datetime2 NULL
 ,[income] NVARCHAR(32) NULL
 ,[retentionEligibleStatus] NVARCHAR(32) NULL
+,[Consent Cohort] NVARCHAR(32) NULL
+,[Retention Status] NVARCHAR(2) NULL
 )
 

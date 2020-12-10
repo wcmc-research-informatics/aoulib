@@ -146,6 +146,9 @@ mappings_one_to_one = [
   {'hp':'income', 'api':'income', 'func':'api2hp_basic'},
   {'hp':'retentionEligibleStatus', 'api':'retentionEligibleStatus', 'func':'api2hp_basic'},
 
+  # "Retention Status" field 
+  {'hp':'Retention Status', 'api':'retentionType', 'func':'api2hp_retention_status'},
+
 ]
 
 def api2hp_basic(x):
@@ -236,6 +239,15 @@ def api2hp_into_str(x):
 def api2hp_site(x):
   if x == 'UNSET': return ''
   else: return x.replace('hpo-site-', '')
+
+def api2hp_retention_status(x):
+    lookup = {
+      'PASSIVE': '1',
+      'ACTIVE': '2',
+      'ACTIVE_AND_PASSIVE': '3',
+      'UNSET': '0'
+    }
+    return lookup.get(x, '')
 
 #-------------------------------------------------------------------------------
 # codebook 
@@ -426,6 +438,36 @@ def api2hp_mult_sample_resolve(api_row, status_fields, time_fields):
 
 
 #------------------------------------------------------------------------------
+# Consent Cohort field
+
+def determine_consent_cohort(api_row):
+    '''
+    API                     HP WQ UI                      HP WQ CSV
+    --------------------------------------------------------------------
+    consentCohort           Consent Cohort                Consent Cohort
+      COHORT_1                  Cohort 1                      Cohort 1
+      COHORT_2                  Cohort 2                      Cohort 2
+      COHORT_3                  Cohort 3                      Cohort 3
+      UNSET
+
+    (For COHORT_2:)
+    cohort2PilotFlag
+      COHORT_2_PILOT            Cohort 2 Pilot                Cohort 2 Pilot
+      UNSET
+    '''
+    ht = {'COHORT_1':'Cohort 1',
+          'COHORT_2':'Cohort 2',
+          'COHORT_3':'Cohort 3',
+        }
+    consentCohort = api_row.get('consentCohort', '')
+    cohort2PilotFlag = api_row.get('cohort2PilotFlag', '')
+    if consentCohort == 'COHORT_2' and cohort2PilotFlag == 'COHORT_2_PILOT':
+        return 'Cohort 2 Pilot'
+    else:
+        return ht.get(consentCohort, '')
+
+
+#------------------------------------------------------------------------------
 # driver
 
 def into_hp_row(api_row):
@@ -464,6 +506,9 @@ def into_hp_row(api_row):
     out[sal_order_status_col_name] = api_row['sampleOrderStatus1SAL2']
   else:
     out[sal_order_status_col_name] = api_row.get('sampleOrderStatus1SAL','')
+
+  # "Consent Cohort" field
+  out['Consent Cohort'] = determine_consent_cohort(api_row)
 
   #done
   return out
@@ -535,6 +580,48 @@ CodeBook:
       $row[] = $participant->{"sampleStatus{$newSample}"} == 'RECEIVED' ? '1' : '0';
       $row[] = WorkQueue::dateFromString($participant->{"sampleStatus{$newSample}Time"}, $app->getUserTimezone(), false);
   }
+
+
+### Consent Cohort
+
+From https://github.com/all-of-us/healthpro/blob/develop/src/Pmi/WorkQueue/WorkQueue.php --
+
+        'consentCohort' => [
+            'label' => 'Consent Cohort',
+            'options' => [
+                'Cohort 1' => 'COHORT_1',
+                'Cohort 2' => 'COHORT_2',
+                'Cohort 2 Pilot' => 'COHORT_2_PILOT',
+                'Cohort 3' => 'COHORT_3'
+            ]
+        ],
+
+From WorkQueueController.php line 528:
+
+            $row[] = $participant->consentCohortText;
+
+From Participant.php --
+
+        private static $consentCohortValues = [
+                'COHORT_1' => 'Cohort 1',
+                'COHORT_2' => 'Cohort 2',
+                'COHORT_2_PILOT' => 'Cohort 2 Pilot',
+                'COHORT_3' => 'Cohort 3'
+            ];
+    
+...and later in the file...:
+
+        private function getConsentCohortText($participant)
+        {
+            if ($participant->consentCohort === 'COHORT_2' && isset($participant->cohort2PilotFlag) && $participant->cohort2PilotFlag === 'COHORT_2_PILOT') {
+                return self::$consentCohortValues[$participant->cohort2PilotFlag];
+            } else {
+                return self::$consentCohortValues[$participant->consentCohort] ?? $participant->consentCohort;
+            }
+        }
+}
+
+
 
 '''
 #------------------------------------------------------------------------------
