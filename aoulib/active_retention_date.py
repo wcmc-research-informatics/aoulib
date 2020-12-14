@@ -21,12 +21,14 @@ def calc_val(rcd):
         
         retentionEligibleStatus = 1 
         AND (
-            completed any of the following surveys in the 
+            has a datetimestamp for any of the following in the 
             last 547 days:
-                - PPI4 - Healthcare Access PPI Module
-                - PPI5 - Family Health PPI Module
-                - PPI6 - Medical History PPI Module
-                - PPI7 - COPE PPI Module (May, June, or July) 
+                 PPI4 - Healthcare Access PPI Module
+                or PPI5 - Family Health PPI Module
+                or PPI6 - Medical History PPI Module
+                or PPI7 - COPE PPI Module (May, June, or July) 
+                or (gRoR Consent Date AND "Consent Cohort" in ('Cohort 1', 'Cohort 2') )
+                or (General Consent Date AND "Consent Cohort" == 'Cohort 1') 
             )
 
         2) The field should return the **earliest date** between
@@ -37,7 +39,6 @@ def calc_val(rcd):
         empty string will be returned. 
 
     '''
-    # Identify values of interest for calculation.
     retention_status    = rcd['retentionEligibleStatus']
     # PPI4 - Healthcare Access PPI Module
     access_ppi          = rcd['Access PPI Survey Complete']
@@ -56,14 +57,22 @@ def calc_val(rcd):
     cope_july       = rcd['COPE July PPI Survey Complete']
     cope_july_dt    = str2date(rcd['COPE July PPI Survey Completion Date'])
 
+    gror_consent_status = rcd['gRoR Consent Status']
+    gror_consent_dt = str2date(rcd['gRoR Consent Date'])
+
+    general_consent_status = rcd['General Consent Status']
+    general_consent_dt = str2date(rcd['General Consent Date'])
+
+    consent_cohort = rcd['Consent Cohort']
+
     # Determine what date 547 days ago was.
     begin_dt = datetime.datetime.now().date() - datetime.timedelta(days=547)
 
-    # List of potential destination values; we'll resolve to
-    # one of these to return (if we don't return the empty string).
+    # List of potential return values; we'll resolve to
+    # one of these to return (if any).
     potentials = []
 
-    # 1) Determine if we return date, or empty string.
+    # 1) Find all pertinent dates.
     if retention_status == 'ELIGIBLE':
         if (access_ppi == '1' and access_ppi_dt >= begin_dt):
             potentials.append(access_ppi_dt)
@@ -77,12 +86,19 @@ def calc_val(rcd):
             potentials.append(cope_june_dt)
         if (cope_july == '1' and cope_july_dt >= begin_dt):
             potentials.append(cope_july_dt)
+        if (gror_consent_status == '1'
+            and gror_consent_dt >= begin_dt
+            and consent_cohort in ['Cohort 1', 'Cohort 2']):
+            potentials.append(gror_consent_dt)
+        if (general_consent_status == '1'
+            and general_consent_dt >= begin_dt
+            and consent_cohort == 'Cohort 1'):
+            potentials.append(general_consent_dt)
 
-    # At this point return empty string when it makes sense to
-    # do so.
+    # At this point return empty string if no pertinent dates.
     if potentials == []: return ''
 
-    # 2) determine which data
+    # 2) determine which date.
     out = min(potentials)
 
     # 3) convert into required str format.
