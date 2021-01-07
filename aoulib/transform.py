@@ -28,9 +28,9 @@ mappings_one_to_one = [
 
   {'hp':'Participant Status', 'api':'enrollmentStatus', 'func':'api2hp_cb'}, # WQC 322
   {'hp':'General Consent Status', 'api':'consentForStudyEnrollment', 'func':'api2hp_status'}, # WQC 257, 323
-  {'hp':'General Consent Date', 'api':'consentForStudyEnrollmentTime', 'func':'api2hp_datetime'}, # WQC 258, 324
+  {'hp':'General Consent Date', 'api':'consentForStudyEnrollmentAuthored', 'func':'api2hp_datetime'}, # WQC 258, 324
   {'hp':'EHR Consent Status', 'api':'consentForElectronicHealthRecords', 'func':'api2hp_status'}, # WQC 325
-  {'hp':'EHR Consent Date', 'api':'consentForElectronicHealthRecordsTime', 'func':'api2hp_datetime'}, # WQC 326
+  {'hp':'EHR Consent Date', 'api':'consentForElectronicHealthRecordsAuthored', 'func':'api2hp_datetime'}, # WQC 326
   {'hp':'CABoR Consent Status', 'api':'consentForCABoR', 'func':'api2hp_status'}, 
   {'hp':'CABoR Consent Date', 'api':'consentForCABoRTime', 'func':'api2hp_datetime'},
   {'hp':'Withdrawal Status', 'api':'withdrawalStatus', 'func':'api2hp_withdrawal'}, 
