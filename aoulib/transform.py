@@ -149,6 +149,16 @@ mappings_one_to_one = [
   # "Retention Status" field 
   {'hp':'Retention Status', 'api':'retentionType', 'func':'api2hp_retention_status'},
 
+  # Additional COPE fields
+  {'hp':'COPE Nov PPI Survey Complete', 'api':'questionnaireOnCopeNov', 'func':'api2hp_status'},
+  {'hp':'COPE Nov PPI Survey Completion Date', 'api':'questionnaireOnCopeNovAuthored', 'func':'api2hp_datetime'},
+  {'hp':'COPE Dec PPI Survey Complete', 'api':'questionnaireOnCopeDec', 'func':'api2hp_status'},
+  {'hp':'COPE Dec PPI Survey Completion Date', 'api':'questionnaireOnCopeDecAuthored', 'func':'api2hp_datetime'},
+
+  # "Date of First * Consent" fields
+  {'hp':'Date of First Primary Consent', 'api':'consentForStudyEnrollmentFirstYesAuthored', 'func':'api2hp_datetime'},
+  {'hp':'Date of First EHR Consent', 'api':'consentForElectronicHealthRecordsFirstYesAuthored', 'func':'api2hp_datetime'},
+
 ]
 
 def api2hp_basic(x):

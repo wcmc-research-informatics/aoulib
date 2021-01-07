@@ -95,5 +95,11 @@ CREATE TABLE [dm_aou].[dbo].[healthpro] (
 ,[retentionEligibleStatus] NVARCHAR(32) NULL
 ,[Consent Cohort] NVARCHAR(32) NULL
 ,[Retention Status] NVARCHAR(2) NULL
+,[COPE Nov PPI Survey Complete] [nvarchar](2) NULL
+,[COPE Dec PPI Survey Complete] [nvarchar](2) NULL
+,[COPE Nov PPI Survey Completion Date] datetime2 NULL
+,[COPE Dec PPI Survey Completion Date] datetime2 NULL
+,[Date of First Primary Consent] date NULL
+,[Date of First EHR Consent] date NULL
 )
 

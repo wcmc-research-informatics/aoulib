@@ -56,6 +56,10 @@ def calc_val(rcd):
     cope_june_dt    = str2date(rcd['COPE June PPI Survey Completion Date'])
     cope_july       = rcd['COPE July PPI Survey Complete']
     cope_july_dt    = str2date(rcd['COPE July PPI Survey Completion Date'])
+    cope_nov       = rcd['COPE Nov PPI Survey Complete']
+    cope_nov_dt    = str2date(rcd['COPE Nov PPI Survey Completion Date'])
+    cope_dec       = rcd['COPE Dec PPI Survey Complete']
+    cope_dec_dt    = str2date(rcd['COPE Dec PPI Survey Completion Date'])
 
     gror_consent_status = rcd['gRoR Consent Status']
     gror_consent_dt = str2date(rcd['gRoR Consent Date'])
@@ -86,6 +90,10 @@ def calc_val(rcd):
             potentials.append(cope_june_dt)
         if (cope_july == '1' and cope_july_dt >= begin_dt):
             potentials.append(cope_july_dt)
+        if (cope_nov == '1' and cope_nov_dt >= begin_dt):
+            potentials.append(cope_nov_dt)
+        if (cope_dec == '1' and cope_dec_dt >= begin_dt):
+            potentials.append(cope_dec_dt)
         if (gror_consent_status == '1'
             and gror_consent_dt >= begin_dt
             and consent_cohort in ['Cohort 1', 'Cohort 2']):
