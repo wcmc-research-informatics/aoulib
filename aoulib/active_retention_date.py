@@ -17,28 +17,30 @@ def calc_val(rcd):
 
     The critera are as follows:
     
-        1) Filter:
-        
-        retentionEligibleStatus = 1 
-        AND (
-            has a datetimestamp for any of the following in the 
-            last 547 days:
-                 PPI4 - Healthcare Access PPI Module
-                or PPI5 - Family Health PPI Module
-                or PPI6 - Medical History PPI Module
-                or PPI7 - COPE PPI Module (May, June, or July) 
-                or (gRoR Consent Date AND "Consent Cohort" in ('Cohort 1', 'Cohort 2') )
-                or (General Consent Date AND "Consent Cohort" == 'Cohort 1') 
-            )
+    1) Filter for Active Retention:
+    * Participant is Retention Eligible (see HealthPro release 2.2.7
+      from Sept. 3, 2020 and OpsData API patch from Oct. 1, 2020),
+      i.e., retentionEligibleStatus = 1 
+    * In the last 18 months (547 days), the participant has completed
+       one of the following:
+            + Healthcare Access PPI Module
+            + Family Health PPI Module
+            + Medical History PPI Module
+            + Any COPE module
+            + Signed revised primary consent (Cohort 1 ONLY)
+            + Responded to gROR consent (Cohorts 1 and 2 ONLY)
+   
+    See HealthPro Release Note for 2.3.6 Nov 2020:
+    https://joinallofus.atlassian.net/wiki/spaces/DRC/pages/2883800/HealthPro+Release+Notes
 
-        2) The field should return the **earliest date** between
-        547 days ago and today, inclusive, amongst all the  
-        pertinent date items above.
+    2) The field should return the **earliest date** between
+    547 days ago and today, inclusive, amongst all the  
+    pertinent date items above.
 
-        3) If the criteria above are not met, then the
-        empty string will be returned. 
-
+    3) If the criteria above are not met, then the
+    empty string will be returned. 
     '''
+
     retention_status    = rcd['retentionEligibleStatus']
     # PPI4 - Healthcare Access PPI Module
     access_ppi          = rcd['Access PPI Survey Complete']
@@ -61,7 +63,6 @@ def calc_val(rcd):
     cope_dec       = rcd['COPE Dec PPI Survey Complete']
     cope_dec_dt    = str2date(rcd['COPE Dec PPI Survey Completion Date'])
 
-    gror_consent_status = rcd['gRoR Consent Status']
     gror_consent_dt = str2date(rcd['gRoR Consent Date'])
 
     general_consent_status = rcd['General Consent Status']
@@ -94,9 +95,8 @@ def calc_val(rcd):
             potentials.append(cope_nov_dt)
         if (cope_dec == '1' and cope_dec_dt >= begin_dt):
             potentials.append(cope_dec_dt)
-        if (gror_consent_status == '1'
-            and gror_consent_dt >= begin_dt
-            and consent_cohort in ['Cohort 1', 'Cohort 2']):
+        if (gror_consent_dt >= begin_dt
+            and consent_cohort in ['Cohort 1', 'Cohort 2', 'Cohort 2 Pilot']):
             potentials.append(gror_consent_dt)
         if (general_consent_status == '1'
             and general_consent_dt >= begin_dt
