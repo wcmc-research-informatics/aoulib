@@ -159,6 +159,10 @@ mappings_one_to_one = [
   {'hp':'Date of First Primary Consent', 'api':'consentForStudyEnrollmentFirstYesAuthored', 'func':'api2hp_datetime'},
   {'hp':'Date of First EHR Consent', 'api':'consentForElectronicHealthRecordsFirstYesAuthored', 'func':'api2hp_datetime'},
 
+  # Feb 2021 COPE survey fields - NIHPMI-551
+  {'hp': 'COPE Feb PPI Survey Complete', 'api': 'questionnaireOnCopeFeb', 'func': 'api2hp_status'},
+  {'hp': 'COPE Feb PPI Survey Completion Date', 'api': 'questionnaireOnCopeFebAuthored', 'func':'api2hp_datetime'},
+
 ]
 
 def api2hp_basic(x):

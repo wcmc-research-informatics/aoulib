@@ -15,30 +15,16 @@ def calc_val(rcd):
       * a string containing a date representation formatted like 'YYYY-MM-DD'.
       * an empty string
 
-    The critera are as follows:
-    
-    1) Filter for Active Retention:
-    * Participant is Retention Eligible (see HealthPro release 2.2.7
-      from Sept. 3, 2020 and OpsData API patch from Oct. 1, 2020),
-      i.e., retentionEligibleStatus = 1 
-    * In the last 18 months (547 days), the participant has completed
-       one of the following:
-            + Healthcare Access PPI Module
-            + Family Health PPI Module
-            + Medical History PPI Module
-            + Any COPE module
-            + Signed revised primary consent (Cohort 1 ONLY)
-            + Responded to gROR consent (Cohorts 1 and 2 ONLY)
-   
-    See HealthPro Release Note for 2.3.6 Nov 2020:
-    https://joinallofus.atlassian.net/wiki/spaces/DRC/pages/2883800/HealthPro+Release+Notes
+    1) Filter for Active Retention.
 
-    2) The field should return the **earliest date** between
-    547 days ago and today, inclusive, amongst all the  
-    pertinent date items above.
+    2) Collect pertinent dates between
+    547 days ago and today, inclusive for fields of interest, and return the
+    the **earliest date** amongst those dates collected; or...
 
-    3) If the criteria above are not met, then the
-    empty string will be returned. 
+    3) if none found, empty string will be returned. 
+
+    See Nexus/Jira for additional info.
+    https://nexus.weill.cornell.edu/display/ARCH/AoU+Active+Retention+Date
     '''
 
     retention_status    = rcd['retentionEligibleStatus']
@@ -51,7 +37,7 @@ def calc_val(rcd):
     # PPI6 - Medical History PPI Module 
     hist_ppi            = rcd['Hist PPI Survey Complete']
     hist_ppi_dt         = str2date(rcd['Hist PPI Survey Completion Date'])
-    # PPI7 - COPE PPI Module (May, June, or July)
+    # PPI7 - COPE PPI
     cope_may        = rcd['COPE May PPI Survey Complete']
     cope_may_dt     = str2date(rcd['COPE May PPI Survey Completion Date'])
     cope_june       = rcd['COPE June PPI Survey Complete']
@@ -62,6 +48,8 @@ def calc_val(rcd):
     cope_nov_dt    = str2date(rcd['COPE Nov PPI Survey Completion Date'])
     cope_dec       = rcd['COPE Dec PPI Survey Complete']
     cope_dec_dt    = str2date(rcd['COPE Dec PPI Survey Completion Date'])
+    cope_feb       = rcd['COPE Feb PPI Survey Complete']
+    cope_feb_dt    = str2date(rcd['COPE Feb PPI Survey Completion Date'])
 
     gror_consent_dt = str2date(rcd['gRoR Consent Date'])
 
@@ -95,6 +83,8 @@ def calc_val(rcd):
             potentials.append(cope_nov_dt)
         if (cope_dec == '1' and cope_dec_dt >= begin_dt):
             potentials.append(cope_dec_dt)
+        if (cope_feb == '1' and cope_feb_dt >= begin_dt):
+            potentials.append(cope_feb_dt)
         if (gror_consent_dt >= begin_dt
             and consent_cohort in ['Cohort 1', 'Cohort 2', 'Cohort 2 Pilot']):
             potentials.append(gror_consent_dt)
