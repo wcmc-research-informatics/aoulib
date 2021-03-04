@@ -114,7 +114,7 @@ def add_column_if_needed(db_spec, db_table_name):
     If 'Active Retention Date' isn't there, add it to the table.
     '''
     catalog, schema, table = db_table_name.split('.')
-    # Add 'database' key to db_spec; needed for operations here.
+    # Add 'database' key to db_spec just in case; needed for operations here.
     db_spec = db_spec.copy()
     db_spec['database'] = catalog
     # Get current column names.

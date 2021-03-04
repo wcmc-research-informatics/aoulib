@@ -21,3 +21,10 @@ Useful gcloud commands:
 * gcloud iam service-accounts keys list --iam-account service-account-name-goes-here
 * gcloud iam service-accounts keys create key.json --iam-account service-account-name-goes-here
 
+## Release Notes
+
+* March 2021:
+    - the destination database table is now dropped and recreated each
+      time `transform.api2db` runs;
+    - additional fields included, mainly those pertinent to lab data.
+

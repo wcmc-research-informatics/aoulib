@@ -320,3 +320,10 @@ def db_get_table_info(db_spec, schema, table):
           "and table_name = '{}'".format(schema, table))
     return db_qy(db_spec, qy)
 
+def db_schema_name_from_fqtn(fqtn, brackets=False):
+    out = fqtn.split('.')[1].replace('[','').replace(']','')
+    if brackets:
+        return '[' + out + ']'
+    else:
+        return out
+

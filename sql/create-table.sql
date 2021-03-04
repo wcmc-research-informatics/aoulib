@@ -1,4 +1,4 @@
-CREATE TABLE [dm_aou].[dbo].[healthpro] (
+CREATE TABLE $TABLE_NAME$ (
 	[PMI ID] NVARCHAR(64) NULL, 
 	[Biobank ID] NVARCHAR(64) NULL, 
 	[Last Name] NVARCHAR(256) NULL, 
@@ -101,5 +101,44 @@ CREATE TABLE [dm_aou].[dbo].[healthpro] (
 ,[COPE Dec PPI Survey Completion Date] datetime2 NULL
 ,[Date of First Primary Consent] date NULL
 ,[Date of First EHR Consent] date NULL
+,[COPE Feb PPI Survey Complete] [nvarchar](2) NULL
+,[COPE Feb PPI Survey Completion Date] datetime2 NULL
+,[biospecimenCollectedSite] [nvarchar](max) NULL
+,[biospecimenSourceSite] [nvarchar](max) NULL
+,[enrollmentSite] [nvarchar](max) NULL
+,[numBaselineSamplesArrived] [nvarchar](max) NULL
+,[participantId] [nvarchar](max) NULL
+,[physicalMeasurementsFinalizedSite] [nvarchar](max) NULL
+,[sampleStatus1CFD9] [nvarchar](max) NULL
+,[sampleStatus1CFD9Time] [nvarchar](max) NULL
+,[sampleStatus1ED02] [nvarchar](max) NULL
+,[sampleStatus1ED04] [nvarchar](max) NULL
+,[sampleStatus1ED04Time] [nvarchar](max) NULL
+,[sampleStatus1ED10] [nvarchar](max) NULL
+,[sampleStatus1ED10Time] [nvarchar](max) NULL
+,[sampleStatus1HEP4] [nvarchar](max) NULL
+,[sampleStatus1HEP4Time] [nvarchar](max) NULL
+,[sampleStatus1PS08] [nvarchar](max) NULL
+,[sampleStatus1PST8] [nvarchar](max) NULL
+,[sampleStatus1PST8Time] [nvarchar](max) NULL
+,[sampleStatus1PXR2] [nvarchar](max) NULL
+,[sampleStatus1PXR2Time] [nvarchar](max) NULL
+,[sampleStatus1SAL] [nvarchar](max) NULL
+,[sampleStatus1SAL2] [nvarchar](max) NULL
+,[sampleStatus1SAL2Time] [nvarchar](max) NULL
+,[sampleStatus1SALTime] [nvarchar](max) NULL
+,[sampleStatus1SS08] [nvarchar](max) NULL
+,[sampleStatus1SST8] [nvarchar](max) NULL
+,[sampleStatus1SST8Time] [nvarchar](max) NULL
+,[sampleStatus1UR10] [nvarchar](max) NULL
+,[sampleStatus1UR10Time] [nvarchar](max) NULL
+,[sampleStatus1UR90] [nvarchar](max) NULL
+,[sampleStatus2ED10] [nvarchar](max) NULL
+,[sampleStatus2ED10Time] [nvarchar](max) NULL
+,[sampleStatus2PST8] [nvarchar](max) NULL
+,[sampleStatus2SST8] [nvarchar](max) NULL
+,[sampleStatusDV1SAL2] [nvarchar](max) NULL
+,[samplesToIsolateDNA] [nvarchar](max) NULL
+,[site] [nvarchar](max) NULL
 )
 
