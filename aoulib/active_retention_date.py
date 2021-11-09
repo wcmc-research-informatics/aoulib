@@ -50,6 +50,11 @@ def calc_val(rcd):
     cope_dec_dt    = str2date(rcd['COPE Dec PPI Survey Completion Date'])
     cope_feb       = rcd['COPE Feb PPI Survey Complete']
     cope_feb_dt    = str2date(rcd['COPE Feb PPI Survey Completion Date'])
+    # Summer and Fall Survey
+    summer_survey       = rcd['Summer Meeting Survey Complete']
+    summer_survey_dt    = str2date(rcd['Summer Meeting Survey Complete Date'])
+    fall_survey         = rcd['Fall Meeting Survey Complete']
+    fall_survey_dt      = str2date(rcd['Fall Meeting Survey Complete Date'])
 
     gror_consent_dt = str2date(rcd['gRoR Consent Date'])
 
@@ -85,6 +90,10 @@ def calc_val(rcd):
             potentials.append(cope_dec_dt)
         if (cope_feb == '1' and cope_feb_dt >= begin_dt):
             potentials.append(cope_feb_dt)
+        if (summer_survey == '1' and summer_survey_dt >= begin_dt):
+            potentials.append(summer_survey_dt)
+        if (fall_survey == '1' and fall_survey_dt >= begin_dt):
+            potentials.append(fall_survey_dt)
         if (gror_consent_dt >= begin_dt
             and consent_cohort in ['Cohort 1', 'Cohort 2', 'Cohort 2 Pilot']):
             potentials.append(gror_consent_dt)

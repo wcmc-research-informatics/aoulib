@@ -1,5 +1,5 @@
 CREATE TABLE $TABLE_NAME$ (
-	[PMI ID] NVARCHAR(64) NULL 
+	 [PMI ID] NVARCHAR(64) NULL 
 	,[Biobank ID] NVARCHAR(64) NULL 
 	,[Last Name] NVARCHAR(256) NULL 
 	,[First Name] NVARCHAR(256) NULL 
@@ -142,6 +142,6 @@ CREATE TABLE $TABLE_NAME$ (
 	,[site] [NVARCHAR](MAX) NULL
 	,[Summer Meeting Survey Complete] [NVARCHAR](2) NULL
 	,[Summer Meeting Survey Complete Date] DATETIME2 NULL
-	,[Fall Meeting Survey Compelte] [NVARCHAR](2) NULL
-	,[Fall Meeting Survey Compelte Date] DATETIME2 NULL
+	,[Fall Meeting Survey Complete] [NVARCHAR](2) NULL
+	,[Fall Meeting Survey Complete Date] DATETIME2 NULL
 )
