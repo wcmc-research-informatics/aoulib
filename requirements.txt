@@ -7,4 +7,4 @@ pyOpenSSL==19.1.0
 certifi==2020.11.8
 bitarray==1.5.3
 python-tds @ git+https://github.com/denisenkom/pytds/#egg=python-tds
-
+funcparserlib==1.0.0a0

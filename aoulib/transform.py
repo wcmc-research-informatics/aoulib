@@ -201,6 +201,12 @@ mappings_one_to_one = [
   {'hp':'sampleStatusDV1SAL2', 'api':'sampleStatusDV1SAL2', 'func':'api2hp_basic'},
   {'hp':'samplesToIsolateDNA', 'api':'samplesToIsolateDNA', 'func':'api2hp_basic'},
   {'hp':'site', 'api':'site', 'func':'api2hp_basic'},
+  
+  # NIHPMI-570 Summer and Fall Surveys
+  {'hp':'Summer Meeting Survey Complete', 'api':'questionnaireOnCopeVaccineMinute1', 'func':'api2hp_status'},
+  {'hp':'Summer Meeting Survey Complete Date', 'api':'questionnaireOnCopeVaccineMinute1Authored', 'func':'api2hp_datetime'},
+  {'hp':'Fall Meeting Survey Complete', 'api':'questionnaireOnCopeVaccineMinute2', 'func':'api2hp_status'},
+  {'hp':'Fall Meeting Survey Complete Date', 'api':'questionnaireOnCopeVaccineMinute2Authored', 'func':'api2hp_datetime'},
 ]
 
 def api2hp_basic(x):
