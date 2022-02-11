@@ -207,6 +207,17 @@ mappings_one_to_one = [
   {'hp':'Summer Meeting Survey Complete Date', 'api':'questionnaireOnCopeVaccineMinute1Authored', 'func':'api2hp_datetime'},
   {'hp':'Fall Meeting Survey Complete', 'api':'questionnaireOnCopeVaccineMinute2', 'func':'api2hp_status'},
   {'hp':'Fall Meeting Survey Complete Date', 'api':'questionnaireOnCopeVaccineMinute2Authored', 'func':'api2hp_datetime'},
+
+  # NIHPMI-574 Personal & Family Hx, SDOH, Winter Minute, New Year Minute Surveys, and Digital Health Consent
+  {'hp':'Personal & Family Hx PPI Survey Complete', 'api':'questionnaireOnPersonalAndFamilyHealthHistory', 'func':'api2hp_status'},
+  {'hp':'Personal & Family Hx PPI Survey Completion Date', 'api':'questionnaireOnPersonalAndFamilyHealthHistoryAuthored', 'func':'api2hp_datetime'},
+  {'hp':'SDOH PPI Survey Complete', 'api':'questionnaireOnSocialDeterminantsOfHealth', 'func':'api2hp_status'},
+  {'hp':'SDOH PPI Survey Completion Date', 'api':'questionnaireOnSocialDeterminantsOfHealthAuthored', 'func':'api2hp_datetime'},
+  {'hp':'Winter Minute PPI Survey Complete', 'api':'questionnaireOnCopeVaccineMinute3', 'func':'api2hp_status'},
+  {'hp':'Winter Minute PPI Survey Completion Date', 'api':'questionnaireOnCopeVaccineMinute3Authored', 'func':'api2hp_datetime'},
+  {'hp':'Digital Health Consent', 'api':'digitalHealthSharingStatus', 'func':'api2hp_into_str'},
+  {'hp':'New Year Minute PPI Survey Complete', 'api':'questionnaireOnCopeVaccineMinute4', 'func':'api2hp_status'},
+  {'hp':'New Year Minute PPI Survey Completion Date', 'api':'questionnaireOnCopeVaccineMinute4Authored', 'func':'api2hp_datetime'},
 ]
 
 def api2hp_basic(x):

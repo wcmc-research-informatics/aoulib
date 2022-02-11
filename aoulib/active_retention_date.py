@@ -55,6 +55,13 @@ def calc_val(rcd):
     summer_survey_dt    = str2date(rcd['Summer Meeting Survey Complete Date'])
     fall_survey         = rcd['Fall Meeting Survey Complete']
     fall_survey_dt      = str2date(rcd['Fall Meeting Survey Complete Date'])
+    # P&F Hx, Winter Minute, and New Year Minute Survey
+    pfhx_survey         = rcd['Personal & Family Hx PPI Survey Complete']
+    pfhx_survey_dt      = str2date(rcd['Personal & Family Hx PPI Survey Completion Date'])
+    winter_survey       = rcd['Winter Minute PPI Survey Complete']
+    winter_survey_dt    =str2date(rcd['Winter Minute PPI Survey Completion Date'])
+    newyear_survey       = rcd['New Year Minute PPI Survey Complete']
+    newyear_survey_dt    =str2date(rcd['New Year Minute PPI Survey Completion Date'])
 
     gror_consent_dt = str2date(rcd['gRoR Consent Date'])
 
@@ -94,6 +101,12 @@ def calc_val(rcd):
             potentials.append(summer_survey_dt)
         if (fall_survey == '1' and fall_survey_dt >= begin_dt):
             potentials.append(fall_survey_dt)
+        if (pfhx_survey == '1' and pfhx_survey_dt >= begin_dt):
+            potentials.append(pfhx_survey_dt)
+        if (winter_survey == '1' and winter_survey_dt >= begin_dt):
+            potentials.append(winter_survey_dt)
+        if (newyear_survey == '1' and newyear_survey_dt >= begin_dt):
+            potentials.append(newyear_survey_dt)
         if (gror_consent_dt >= begin_dt
             and consent_cohort in ['Cohort 1', 'Cohort 2', 'Cohort 2 Pilot']):
             potentials.append(gror_consent_dt)

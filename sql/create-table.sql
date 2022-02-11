@@ -144,4 +144,13 @@ CREATE TABLE $TABLE_NAME$ (
 	,[Summer Meeting Survey Complete Date] DATETIME2 NULL
 	,[Fall Meeting Survey Complete] [NVARCHAR](2) NULL
 	,[Fall Meeting Survey Complete Date] DATETIME2 NULL
+	,[Personal & Family Hx PPI Survey Complete] [NVARCHAR](2) NULL
+	,[Personal & Family Hx PPI Survey Completion Date] DATETIME2 NULL
+	,[SDOH PPI Survey Complete] [NVARCHAR](2) NULL
+	,[SDOH PPI Survey Completion Date] DATETIME2 NULL
+	,[Winter Minute PPI Survey Complete] [NVARCHAR](2) NULL
+	,[Winter Minute PPI Survey Completion Date] DATETIME2 NULL
+	,[Digital Health Consent] [VARCHAR](MAX) NULL
+	,[New Year Minute PPI Survey Complete] [NVARCHAR](2) NULL
+	,[New Year Minute PPI Survey Completion Date] DATETIME2 NULL
 )
