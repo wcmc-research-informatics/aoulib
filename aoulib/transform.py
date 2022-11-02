@@ -218,6 +218,19 @@ mappings_one_to_one = [
   {'hp':'Digital Health Consent', 'api':'digitalHealthSharingStatus', 'func':'api2hp_into_str'},
   {'hp':'New Year Minute PPI Survey Complete', 'api':'questionnaireOnCopeVaccineMinute4', 'func':'api2hp_status'},
   {'hp':'New Year Minute PPI Survey Completion Date', 'api':'questionnaireOnCopeVaccineMinute4Authored', 'func':'api2hp_datetime'},
+  {'hp':'Enrollment Site', 'api':'enrollmentSite', 'func':'api2hp_status'},
+  {'hp':'Physical Measurements Collection Type', 'api':'physicalMeasurementsCollectType', 'func':'api2hp_status'},
+  {'hp':'ID Verification Date', 'api':'onSiteIdVerificationTime', 'func':'api2hp_datetime'},
+  {'hp':'Incentive Date', 'api':'participantIncentives', 'func':'api2hp_datetime'},
+  {'hp':'Remote Physical Measurements Status', 'api':'selfReportedPhysicalMeasurementsStatus', 'func':'api2hp_status'},
+  {'hp':'Remote Physical Measurements Completion Date', 'api':'selfReportedPhysicalMeasurementsAuthored', 'func':'api2hp_datetime'},
+  {'hp':'Physical Measurements Status', 'api':'clinicPhysicalMeasurementsStatus', 'func':'api2hp_status'},
+  {'hp':'Physical Measurements Completion Date', 'api':'clinicPhysicalMeasurementsFinalizedTime', 'func':'api2hp_datetime'},
+  {'hp':'Physical Measurements Site', 'api':'clinicPhysicalMeasurementsFinalizedSite', 'func':'api2hp_status'},
+  {'hp':'Physical Measurements Date', 'api':'clinicPhysicalMeasurementsTime', 'func':'api2hp_datetime'},
+  {'hp':'Physical Measurements Creation Site', 'api':'clinicPhysicalMeasurementsCreatedSite', 'func':'api2hp_status'},
+  {'hp':'Date of Primary Re-Consent', 'api':'reconsentForStudyEnrollmentAuthored', 'func':'api2hp_datetime'},
+  {'hp':'Date of EHR Re-Consent', 'api':'reconsentForElectronicHealthRecordsAuthored', 'func':'api2hp_datetime'},
 ]
 
 def api2hp_basic(x):

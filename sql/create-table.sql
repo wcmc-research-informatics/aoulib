@@ -151,6 +151,19 @@ CREATE TABLE $TABLE_NAME$ (
 	,[Winter Minute PPI Survey Complete] [NVARCHAR](2) NULL
 	,[Winter Minute PPI Survey Completion Date] DATETIME2 NULL
 	,[Digital Health Consent] [VARCHAR](MAX) NULL
-	,[New Year Minute PPI Survey Complete] [NVARCHAR](2) NULL
+    ,[New Year Minute PPI Survey Complete] [NVARCHAR](2) NULL
 	,[New Year Minute PPI Survey Completion Date] DATETIME2 NULL
+    ,[Enrollment Site] [NVARCHAR](MAX) NULL
+    ,[Physical Measurements Collection Type] [NVARCHAR](MAX) NULL
+    ,[ID Verification Date] DATETIME2 NULL
+    ,[Incentive Date] DATETIME2 NULL
+    ,[Remote Physical Measurements Status] [NVARCHAR](MAX) NULL
+    ,[Remote Physical Measurements Completion Date] DATETIME2 NULL
+    ,[Physical Measurements Status] [NVARCHAR](MAX) NULL
+    ,[Physical Measurements Completion Date] DATETIME2 NULL
+    ,[Physical Measurements Site] [NVARCHAR](MAX) NULL
+    ,[Physical Measurements Date] DATETIME2 NULL
+    ,[Physical Measurements Creation Site] [NVARCHAR](MAX) NULL
+    ,[Date of Primary Re-Consent] DATETIME2 NULL
+    ,[Date of EHR Re-Consent] DATETIME2 NULL
 )
