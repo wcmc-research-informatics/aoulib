@@ -159,11 +159,11 @@ CREATE TABLE $TABLE_NAME$ (
     ,[Incentive Date] DATETIME2 NULL
     ,[Remote Physical Measurements Status] [NVARCHAR](MAX) NULL
     ,[Remote Physical Measurements Completion Date] DATETIME2 NULL
-    ,[Physical Measurements Status] [NVARCHAR](MAX) NULL
-    ,[Physical Measurements Completion Date] DATETIME2 NULL
-    ,[Physical Measurements Site] [NVARCHAR](MAX) NULL
-    ,[Physical Measurements Date] DATETIME2 NULL
-    ,[Physical Measurements Creation Site] [NVARCHAR](MAX) NULL
+    ,[Clinic Physical Measurements Status] [NVARCHAR](MAX) NULL
+    ,[Clinic Physical Measurements Completion Date] DATETIME2 NULL
+    ,[Clinic Physical Measurements Site] [NVARCHAR](MAX) NULL
+    ,[Clinic Physical Measurements Date] DATETIME2 NULL
+    ,[Clinic Physical Measurements Creation Site] [NVARCHAR](MAX) NULL
     ,[Date of Primary Re-Consent] DATETIME2 NULL
     ,[Date of EHR Re-Consent] DATETIME2 NULL
 )
