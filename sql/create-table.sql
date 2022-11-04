@@ -6,7 +6,7 @@ CREATE TABLE $TABLE_NAME$ (
 	,[Date of Birth] DATE NULL 
 	,[Language] NVARCHAR(32) NULL 
 	,[Language of General Consent] NVARCHAR(32) NULL
-    ,[Participant Status] NVARCHAR(28) NULL
+	,[Participant Status] NVARCHAR(28) NULL
 	,[General Consent Status] NVARCHAR(2) NULL 
 	,[General Consent Date] DATE NULL 
 	,[EHR Consent Status] NVARCHAR(2) NULL 
@@ -45,9 +45,9 @@ CREATE TABLE $TABLE_NAME$ (
 	,[Access PPI Survey Completion Date] DATE NULL 
 	,[Physical Measurements Status] NVARCHAR(2) NULL 
 	,[Physical Measurements Completion Date] DATE NULL 
-    ,[Physical Measurements Site] NVARCHAR(50) NULL
-    ,[Paired Site] NVARCHAR(50) NULL
-    ,[Paired Organization] NVARCHAR(50) NULL
+	,[Physical Measurements Site] NVARCHAR(50) NULL
+	,[Paired Site] NVARCHAR(50) NULL
+	,[Paired Organization] NVARCHAR(50) NULL
 	,[Samples for DNA Received] NVARCHAR(2) NULL 
 	,[Biospecimens] NVARCHAR(10) NULL 
 	,[8 mL SST Collected] NVARCHAR(2) NULL 
@@ -66,7 +66,7 @@ CREATE TABLE $TABLE_NAME$ (
 	,[Urine 10 mL Collection Date] DATE NULL 
 	,[Saliva Collected] NVARCHAR(2) NULL 
 	,[Saliva Collection Date] DATE NULL
-    ,[Biospecimens Site] NVARCHAR(50) NULL
+	,[Biospecimens Site] NVARCHAR(50) NULL
 	,[2 mL EDTA Collected] NVARCHAR(2) NULL
 	,[2 mL EDTA Collection Date] DATE NULL
 	,[Cell-Free DNA Collected] NVARCHAR(2) NULL
@@ -151,19 +151,19 @@ CREATE TABLE $TABLE_NAME$ (
 	,[Winter Minute PPI Survey Complete] [NVARCHAR](2) NULL
 	,[Winter Minute PPI Survey Completion Date] DATETIME2 NULL
 	,[Digital Health Consent] [VARCHAR](MAX) NULL
-    ,[New Year Minute PPI Survey Complete] [NVARCHAR](2) NULL
+	,[New Year Minute PPI Survey Complete] [NVARCHAR](2) NULL
 	,[New Year Minute PPI Survey Completion Date] DATETIME2 NULL
-    ,[Enrollment Site] [NVARCHAR](MAX) NULL
-    ,[Physical Measurements Collection Type] [NVARCHAR](MAX) NULL
-    ,[ID Verification Date] DATETIME2 NULL
-    ,[Incentive Date] DATETIME2 NULL
-    ,[Remote Physical Measurements Status] [NVARCHAR](MAX) NULL
-    ,[Remote Physical Measurements Completion Date] DATETIME2 NULL
-    ,[Clinic Physical Measurements Status] [NVARCHAR](MAX) NULL
-    ,[Clinic Physical Measurements Completion Date] DATETIME2 NULL
-    ,[Clinic Physical Measurements Site] [NVARCHAR](MAX) NULL
-    ,[Clinic Physical Measurements Date] DATETIME2 NULL
-    ,[Clinic Physical Measurements Creation Site] [NVARCHAR](MAX) NULL
-    ,[Date of Primary Re-Consent] DATETIME2 NULL
-    ,[Date of EHR Re-Consent] DATETIME2 NULL
+	,[Enrollment Site] [NVARCHAR](MAX) NULL
+	,[Physical Measurements Collection Type] [NVARCHAR](MAX) NULL
+	,[ID Verification Date] DATETIME2 NULL
+	,[Incentive Date] DATETIME2 NULL
+	,[Remote Physical Measurements Status] [NVARCHAR](MAX) NULL
+	,[Remote Physical Measurements Completion Date] DATETIME2 NULL
+	,[Clinic Physical Measurements Status] [NVARCHAR](MAX) NULL
+	,[Clinic Physical Measurements Completion Date] DATETIME2 NULL
+	,[Clinic Physical Measurements Site] [NVARCHAR](MAX) NULL
+	,[Clinic Physical Measurements Date] DATETIME2 NULL
+	,[Clinic Physical Measurements Creation Site] [NVARCHAR](MAX) NULL
+	,[Date of Primary Re-Consent] DATETIME2 NULL
+	,[Date of EHR Re-Consent] DATETIME2 NULL
 )
