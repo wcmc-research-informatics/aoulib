@@ -146,7 +146,7 @@ mappings_one_to_one = [
   {'hp':'income',                                           'api':'income',                                                 'func':'api2hp_basic'},
   {'hp':'retentionEligibleStatus',                          'api':'retentionEligibleStatus',                                'func':'api2hp_basic'},
 
-  # "Retention Status" fieldg
+  # "Retention Status" field
   {'hp':'Retention Status',                                 'api':'retentionType',                                          'func':'api2hp_retention_status'},
 
   # Additional COPE fields
