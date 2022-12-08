@@ -4,7 +4,7 @@ hy==0.19.0
 python-dateutil==2.8.1
 pytz==2020.1
 pyOpenSSL==19.1.0
-certifi==2020.11.8
+certifi==2022.12.7
 bitarray==1.5.3
 python-tds @ git+https://github.com/denisenkom/pytds/#egg=python-tds
 funcparserlib==1.0.0a0
