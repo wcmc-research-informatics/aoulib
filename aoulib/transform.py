@@ -18,206 +18,219 @@ def str2func(funcname):
 
 mappings_one_to_one = [
 
-  {'hp':'PMI ID', 'api':'participantId'},
-  {'hp':'Biobank ID', 'api':'biobankId'}, 
-  {'hp':'Last Name', 'api':'lastName'}, 
-  {'hp':'First Name', 'api':'firstName'}, 
-  {'hp':'Date of Birth', 'api':'dateOfBirth', 'func':'api2hp_date'}, 
-  {'hp':'Language', 'api':'language', 'func':'api2hp_cb'}, # WQC 321; deprecated; always blank. 
-  {'hp':'Language of General Consent', 'api':'primaryLanguage', 'func':'api2hp_language'},
+  {'hp':'PMI ID',                                           'api':'participantId'},
+  {'hp':'Biobank ID',                                       'api':'biobankId'},
+  {'hp':'Last Name',                                        'api':'lastName'},
+  {'hp':'First Name',                                       'api':'firstName'},
+  {'hp':'Date of Birth',                                    'api':'dateOfBirth',                                            'func':'api2hp_date'},
+  {'hp':'Language',                                         'api':'language',                                               'func':'api2hp_cb'},             # WQC 321; deprecated; always blank.
+  {'hp':'Language of General Consent',                      'api':'primaryLanguage',                                        'func':'api2hp_language'},
 
-  {'hp':'Participant Status', 'api':'enrollmentStatus', 'func':'api2hp_cb'}, # WQC 322
-  {'hp':'General Consent Status', 'api':'consentForStudyEnrollment', 'func':'api2hp_status'}, # WQC 257, 323
-  {'hp':'General Consent Date', 'api':'consentForStudyEnrollmentAuthored', 'func':'api2hp_datetime'}, # WQC 258, 324
-  {'hp':'EHR Consent Status', 'api':'consentForElectronicHealthRecords', 'func':'api2hp_status'}, # WQC 325
-  {'hp':'EHR Consent Date', 'api':'consentForElectronicHealthRecordsAuthored', 'func':'api2hp_datetime'}, # WQC 326
-  {'hp':'CABoR Consent Status', 'api':'consentForCABoR', 'func':'api2hp_status'}, 
-  {'hp':'CABoR Consent Date', 'api':'consentForCABoRTime', 'func':'api2hp_datetime'},
-  {'hp':'Withdrawal Status', 'api':'withdrawalStatus', 'func':'api2hp_withdrawal'}, 
-  {'hp':'Withdrawal Reason', 'api':'withdrawalReason', 'func':'api2hp_cb'},  # WQC 301, 374
-  {'hp':'Withdrawal Date', 'api':'withdrawalTime', 'func':'api2hp_datetime'}, # WQC 330
+  {'hp':'Participant Status',                               'api':'enrollmentStatus',                                       'func':'api2hp_cb'},             # WQC 322
+  {'hp':'General Consent Status',                           'api':'consentForStudyEnrollment',                              'func':'api2hp_status'},         # WQC 257, 323
+  {'hp':'General Consent Date',                             'api':'consentForStudyEnrollmentAuthored',                      'func':'api2hp_datetime'},       # WQC 258, 324
+  {'hp':'EHR Consent Status',                               'api':'consentForElectronicHealthRecords',                      'func':'api2hp_status'},         # WQC 325
+  {'hp':'EHR Consent Date',                                 'api':'consentForElectronicHealthRecordsAuthored',              'func':'api2hp_datetime'},       # WQC 326
+  {'hp':'CABoR Consent Status',                             'api':'consentForCABoR',                                        'func':'api2hp_status'},
+  {'hp':'CABoR Consent Date',                               'api':'consentForCABoRTime',                                    'func':'api2hp_datetime'},
+  {'hp':'Withdrawal Status',                                'api':'withdrawalStatus',                                       'func':'api2hp_withdrawal'},
+  {'hp':'Withdrawal Reason',                                'api':'withdrawalReason',                                       'func':'api2hp_cb'},             # WQC 301, 374
+  {'hp':'Withdrawal Date',                                  'api':'withdrawalTime',                                         'func':'api2hp_datetime'},       # WQC 330
 
-  {'hp':'Street Address', 'api':'streetAddress', 'func':'api2hp_basic'},
+  {'hp':'Street Address',                                   'api':'streetAddress',                                          'func':'api2hp_basic'},
   # Note about streetAddress2: the API will leave this out if empty.
   # HealthPro checks for this and returns empty string.
-  {'hp':'Street Address2', 'api':'streetAddress2', 'func':'api2hp_basic'}, # WQC 381 
-  {'hp':'City', 'api':'city', 'func':'api2hp_basic'},
-  {'hp':'State', 'api':'state', 'func':'api2hp_state'},
-  {'hp':'ZIP', 'api':'zipCode', 'func':'api2hp_basic'},
-  {'hp':'Email', 'api':'email', 'func':'api2hp_basic'},
-  {'hp':'Phone', 'api':'phoneNumber', 'func':'api2hp_basic'},
-  {'hp':'Sex', 'api':'sex', 'func':'api2hp_cb'}, # WQC 337
-  {'hp':'Gender Identity', 'api':'genderIdentity', 'func':'api2hp_cb'}, # WQC 338
-  {'hp':'Race/Ethnicity', 'api':'race', 'func':'api2hp_cb'}, # WQC 339
-  {'hp':'Education', 'api':'education', 'func':'api2hp_cb'}, # WQC 340
+  {'hp':'Street Address2',                                  'api':'streetAddress2',                                         'func':'api2hp_basic'},          # WQC 381
+  {'hp':'City',                                             'api':'city',                                                   'func':'api2hp_basic'},
+  {'hp':'State',                                            'api':'state',                                                  'func':'api2hp_state'},
+  {'hp':'ZIP',                                              'api':'zipCode',                                                'func':'api2hp_basic'},
+  {'hp':'Email',                                            'api':'email',                                                  'func':'api2hp_basic'},
+  {'hp':'Phone',                                            'api':'phoneNumber',                                            'func':'api2hp_basic'},
+  {'hp':'Sex',                                              'api':'sex',                                                    'func':'api2hp_cb'},             # WQC 337
+  {'hp':'Gender Identity',                                  'api':'genderIdentity',                                         'func':'api2hp_cb'},             # WQC 338
+  {'hp':'Race/Ethnicity',                                   'api':'race',                                                   'func':'api2hp_cb'},             # WQC 339
+  {'hp':'Education',                                        'api':'education',                                              'func':'api2hp_cb'},             # WQC 340
 
-  {'hp':'Required PPI Surveys Complete', 'api':'numCompletedBaselinePPIModules', 'func':'api2hp_required_surveys_completed'},
-  {'hp':'Completed Surveys', 'api':'numCompletedPPIModules', 'func':'api2hp_completed_or_0'}, # WQC 342
+  {'hp':'Required PPI Surveys Complete',                    'api':'numCompletedBaselinePPIModules',                         'func':'api2hp_required_surveys_completed'},
+  {'hp':'Completed Surveys',                                'api':'numCompletedPPIModules',                                 'func':'api2hp_completed_or_0'}, # WQC 342
 
   # Surveys processed in WQC via for-loops starting line 278 (headers), 344 (values)
   # See also: $surveys data member in WQ class. (line 206).
-  {'hp':'Basics PPI Survey Complete', 'api':'questionnaireOnTheBasics', 'func':'api2hp_status'}, 
+  {'hp':'Basics PPI Survey Complete',                       'api':'questionnaireOnTheBasics',                               'func':'api2hp_status'},
   # Regarding "questionnaireOnTheBasicsTime" vs "questionnaireOnTheBasicsAuthored" (and similar):
   # (which both show up api data): code at WQC line 346 uses "Time" as suffix.
   # Additionally, the 'authored' versions are not mentioned in the field descriptions in the README.
-  {'hp':'Basics PPI Survey Completion Date', 'api':'questionnaireOnTheBasicsTime', 'func':'api2hp_datetime'},
-  {'hp':'Health PPI Survey Complete', 'api':'questionnaireOnOverallHealth', 'func':'api2hp_status'},
-  {'hp':'Health PPI Survey Completion Date', 'api':'questionnaireOnOverallHealthTime', 'func':'api2hp_datetime'},
-  {'hp':'Lifestyle PPI Survey Complete', 'api':'questionnaireOnLifestyle', 'func':'api2hp_status'},
-  {'hp':'Lifestyle PPI Survey Completion Date', 'api':'questionnaireOnLifestyleTime', 'func':'api2hp_datetime'},
-  {'hp':'Hist PPI Survey Complete', 'api':'questionnaireOnMedicalHistory', 'func':'api2hp_status'},
-  {'hp':'Hist PPI Survey Completion Date', 'api':'questionnaireOnMedicalHistoryTime', 'func':'api2hp_datetime'},
-  {'hp':'Meds PPI Survey Complete', 'api':'questionnaireOnMedications', 'func':'api2hp_status'},
-  {'hp':'Meds PPI Survey Completion Date', 'api':'questionnaireOnMedicationsTime', 'func':'api2hp_datetime'},
-  {'hp':'Family PPI Survey Complete', 'api':'questionnaireOnFamilyHealth', 'func':'api2hp_status'},
-  {'hp':'Family PPI Survey Completion Date', 'api':'questionnaireOnFamilyHealthTime', 'func':'api2hp_datetime'},
-  {'hp':'Access PPI Survey Complete', 'api':'questionnaireOnHealthcareAccess', 'func':'api2hp_status'},
-  {'hp':'Access PPI Survey Completion Date', 'api':'questionnaireOnHealthcareAccessTime', 'func':'api2hp_datetime'},
+  {'hp':'Basics PPI Survey Completion Date',                'api':'questionnaireOnTheBasicsTime',                           'func':'api2hp_datetime'},
+  {'hp':'Health PPI Survey Complete',                       'api':'questionnaireOnOverallHealth',                           'func':'api2hp_status'},
+  {'hp':'Health PPI Survey Completion Date',                'api':'questionnaireOnOverallHealthTime',                       'func':'api2hp_datetime'},
+  {'hp':'Lifestyle PPI Survey Complete',                    'api':'questionnaireOnLifestyle',                               'func':'api2hp_status'},
+  {'hp':'Lifestyle PPI Survey Completion Date',             'api':'questionnaireOnLifestyleTime',                           'func':'api2hp_datetime'},
+  {'hp':'Hist PPI Survey Complete',                         'api':'questionnaireOnMedicalHistory',                          'func':'api2hp_status'},
+  {'hp':'Hist PPI Survey Completion Date',                  'api':'questionnaireOnMedicalHistoryTime',                      'func':'api2hp_datetime'},
+  {'hp':'Meds PPI Survey Complete',                         'api':'questionnaireOnMedications',                             'func':'api2hp_status'},
+  {'hp':'Meds PPI Survey Completion Date',                  'api':'questionnaireOnMedicationsTime',                         'func':'api2hp_datetime'},
+  {'hp':'Family PPI Survey Complete',                       'api':'questionnaireOnFamilyHealth',                            'func':'api2hp_status'},
+  {'hp':'Family PPI Survey Completion Date',                'api':'questionnaireOnFamilyHealthTime',                        'func':'api2hp_datetime'},
+  {'hp':'Access PPI Survey Complete',                       'api':'questionnaireOnHealthcareAccess',                        'func':'api2hp_status'},
+  {'hp':'Access PPI Survey Completion Date',                'api':'questionnaireOnHealthcareAccessTime',                    'func':'api2hp_datetime'},
 
-  {'hp':'Physical Measurements Status', 'api':'physicalMeasurementsStatus', 'func':'api2hp_completed'}, # WQC 289, 
-  {'hp':'Physical Measurements Completion Date', 'api':'physicalMeasurementsFinalizedTime', 'func':'api2hp_datetime'}, # WQC 290, 356
+  {'hp':'Physical Measurements Status',                     'api':'physicalMeasurementsStatus',                             'func':'api2hp_completed'},      # WQC 289
+  {'hp':'Physical Measurements Completion Date',            'api':'physicalMeasurementsFinalizedTime',                      'func':'api2hp_datetime'},       # WQC 290, 356
   #{'hp':'Physical Measurements Site', 'api':'evaluationFinalizedSite'},  # WQC 293, 359
-  {'hp':'Physical Measurements Site', 'api':'physicalMeasurementsFinalizedSite', 'func':'api2hp_site'},  # WQC 293, 359
+  {'hp':'Physical Measurements Site',                       'api':'physicalMeasurementsFinalizedSite',                      'func':'api2hp_site'},           # WQC 293, 359
 
-  {'hp':'Paired Site', 'api':'site', 'func':'api2hp_site'}, # WQC 291, 357
-  {'hp':'Paired Organization', 'api':'organization'}, # WQC 292, 358
+  {'hp':'Paired Site',                                      'api':'site',                                                   'func':'api2hp_site'},           # WQC 291, 357
+  {'hp':'Paired Organization',                              'api':'organization'},                                                                           # WQC 292, 358
 
-  {'hp':'Samples for DNA Received', 'api':'samplesToIsolateDNA', 'func':'api2hp_received'}, # WQC 294, 360
-  {'hp':'Biospecimens', 'api':'numBaselineSamplesArrived', 'func':'api2hp_completed_or_0'}, # WQC 295, 361
+  {'hp':'Samples for DNA Received',                         'api':'samplesToIsolateDNA',                                    'func':'api2hp_received'},       # WQC 294, 360
+  {'hp':'Biospecimens',                                     'api':'numBaselineSamplesArrived',                              'func':'api2hp_completed_or_0'}, # WQC 295, 361
 
   # Specific biospecimen-related fields constructed using for-loop
   # in WQC line 296-299 (headers), line 362 (values).
   # See WQ data member $samples line 216.
   # See also: one_to_many mappings below, and WQ $samplesAlias data member line 231.
 
-  {'hp':'4 mL Na-Hep Collected', 'api':'sampleStatus1HEP4', 'func':'api2hp_received'},
-  {'hp':'4 mL Na-Hep Collection Date', 'api':'sampleStatus1HEP4Time', 'func':'api2hp_datetime'},
+  {'hp':'4 mL Na-Hep Collected',                            'api':'sampleStatus1HEP4',                                      'func':'api2hp_received'},
+  {'hp':'4 mL Na-Hep Collection Date',                      'api':'sampleStatus1HEP4Time',                                  'func':'api2hp_datetime'},
 
-  {'hp':'4 mL EDTA Collected', 'api':'sampleStatus1ED04', 'func':'api2hp_received'},
-  {'hp':'4 mL EDTA Collection Date', 'api':'sampleStatus1ED04Time', 'func':'api2hp_datetime'},
+  {'hp':'4 mL EDTA Collected',                              'api':'sampleStatus1ED04',                                      'func':'api2hp_received'},
+  {'hp':'4 mL EDTA Collection Date',                        'api':'sampleStatus1ED04Time',                                  'func':'api2hp_datetime'},
 
-  {'hp':'1st 10 mL EDTA Collected', 'api':'sampleStatus1ED10', 'func':'api2hp_received'},
-  {'hp':'1st 10 mL EDTA Collection Date', 'api':'sampleStatus1ED10Time', 'func':'api2hp_datetime'},
+  {'hp':'1st 10 mL EDTA Collected',                         'api':'sampleStatus1ED10',                                      'func':'api2hp_received'},
+  {'hp':'1st 10 mL EDTA Collection Date',                   'api':'sampleStatus1ED10Time',                                  'func':'api2hp_datetime'},
 
-  {'hp':'2nd 10 mL EDTA Collected', 'api':'sampleStatus2ED10', 'func':'api2hp_received'},
-  {'hp':'2nd 10 mL EDTA Collection Date', 'api':'sampleStatus2ED10Time', 'func':'api2hp_datetime'},
+  {'hp':'2nd 10 mL EDTA Collected',                         'api':'sampleStatus2ED10',                                      'func':'api2hp_received'},
+  {'hp':'2nd 10 mL EDTA Collection Date',                   'api':'sampleStatus2ED10Time',                                  'func':'api2hp_datetime'},
 
-  {'hp':'Urine 10 mL Collected', 'api':'sampleStatus1UR10', 'func':'api2hp_received'},
-  {'hp':'Urine 10 mL Collection Date', 'api':'sampleStatus1UR10Time', 'func':'api2hp_datetime'},
+  {'hp':'Urine 10 mL Collected',                            'api':'sampleStatus1UR10',                                      'func':'api2hp_received'},
+  {'hp':'Urine 10 mL Collection Date',                      'api':'sampleStatus1UR10Time',                                  'func':'api2hp_datetime'},
 
   # WQC 300, 373 references an 'orderCreatedSite'; however the docs
   # mention 4 different biospecimen site fields; the closest one seems to be:
   # biospecimenSourceSite: "the site where biospecimens were initially created for the participant"
-  {'hp':'Biospecimens Site', 'api':'biospecimenSourceSite', 'func':'api2hp_site'}, 
+  {'hp':'Biospecimens Site',                                'api':'biospecimenSourceSite',                                  'func':'api2hp_site'},
 
-  {'hp':'2 mL EDTA Collected', 'api':'sampleStatus1ED02', 'func':'api2hp_received'},
-  {'hp':'2 mL EDTA Collection Date', 'api':'sampleStatus1ED02Time', 'func':'api2hp_datetime'},
+  {'hp':'2 mL EDTA Collected',                              'api':'sampleStatus1ED02',                                      'func':'api2hp_received'},
+  {'hp':'2 mL EDTA Collection Date',                        'api':'sampleStatus1ED02Time',                                  'func':'api2hp_datetime'},
 
-  {'hp':'Cell-Free DNA Collected', 'api':'sampleStatus1CFD9', 'func':'api2hp_received'},
-  {'hp':'Cell-Free DNA Collection Date', 'api':'sampleStatus1CFD9Time', 'func':'api2hp_datetime'},
+  {'hp':'Cell-Free DNA Collected',                          'api':'sampleStatus1CFD9',                                      'func':'api2hp_received'},
+  {'hp':'Cell-Free DNA Collection Date',                    'api':'sampleStatus1CFD9Time',                                  'func':'api2hp_datetime'},
 
-  {'hp':'Paxgene RNA Collected', 'api':'sampleStatus1PXR2', 'func':'api2hp_received'},
-  {'hp':'Paxgene RNA Collection Date', 'api':'sampleStatus1PXR2Time', 'func':'api2hp_datetime'},
+  {'hp':'Paxgene RNA Collected',                            'api':'sampleStatus1PXR2',                                      'func':'api2hp_received'},
+  {'hp':'Paxgene RNA Collection Date',                      'api':'sampleStatus1PXR2Time',                                  'func':'api2hp_datetime'},
 
-  {'hp':'Urine 90 mL Collected', 'api':'sampleStatus1UR90', 'func':'api2hp_received'},
-  {'hp':'Urine 90 mL Collection Date', 'api':'sampleStatus1UR90Time', 'func':'api2hp_datetime'},
+  {'hp':'Urine 90 mL Collected',                            'api':'sampleStatus1UR90',                                      'func':'api2hp_received'},
+  {'hp':'Urine 90 mL Collection Date',                      'api':'sampleStatus1UR90Time',                                  'func':'api2hp_datetime'},
 
-  {'hp':'DV-only EHR Sharing Status', 'api':'consentForDvElectronicHealthRecordsSharing', 'func':'api2hp_status'},
-  {'hp':'DV-only EHR Sharing Date', 'api':'consentForDvElectronicHealthRecordsSharingTime', 'func':'api2hp_datetime'},
+  {'hp':'DV-only EHR Sharing Status',                       'api':'consentForDvElectronicHealthRecordsSharing',             'func':'api2hp_status'},
+  {'hp':'DV-only EHR Sharing Date',                         'api':'consentForDvElectronicHealthRecordsSharingTime',         'func':'api2hp_datetime'},
 
-  {'hp':'Login Phone', 'api':'loginPhoneNumber', 'func':'api2hp_basic'},
+  {'hp':'Login Phone',                                      'api':'loginPhoneNumber',                                       'func':'api2hp_basic'},
 
   # "Core Participant Date" added Feb 2020. See WQC 353/438.
-  {'hp':'Core Participant Date', 'api':'enrollmentStatusCoreStoredSampleTime', 'func':'api2hp_datetime'},
+  {'hp':'Core Participant Date',                            'api':'enrollmentStatusCoreStoredSampleTime',                   'func':'api2hp_datetime'},
   # Added Feb 2020; no HP equivalent.
-  {'hp':'enrollmentStatusCoreOrderedSampleTime', 'api':'enrollmentStatusCoreOrderedSampleTime', 'func':'api2hp_datetime'},
-  {'hp':'Biospecimen Status', 'api':'biospecimenStatus', 'func':'api2hp_basic'},
-  {'hp':'4 mL EDTA Sample Order Status', 'api':'sampleOrderStatus1ED04', 'func':'api2hp_basic'},
-  {'hp':'gRoR Consent Status', 'api':'consentForGenomicsROR', 'func':'api2hp_status'},
-  {'hp':'gRoR Consent Date', 'api':'consentForGenomicsRORAuthored', 'func':'api2hp_datetime'},
+  {'hp':'enrollmentStatusCoreOrderedSampleTime',            'api':'enrollmentStatusCoreOrderedSampleTime',                  'func':'api2hp_datetime'},
+  {'hp':'Biospecimen Status',                               'api':'biospecimenStatus',                                      'func':'api2hp_basic'},
+  {'hp':'4 mL EDTA Sample Order Status',                    'api':'sampleOrderStatus1ED04',                                 'func':'api2hp_basic'},
+  {'hp':'gRoR Consent Status',                              'api':'consentForGenomicsROR',                                  'func':'api2hp_status'},
+  {'hp':'gRoR Consent Date',                                'api':'consentForGenomicsRORAuthored',                          'func':'api2hp_datetime'},
 
   # COPE fields
-  {'hp':'COPE May PPI Survey Complete', 'api':'questionnaireOnCopeMay', 'func':'api2hp_status'},
-  {'hp':'COPE May PPI Survey Completion Date', 'api':'questionnaireOnCopeMayAuthored', 'func':'api2hp_datetime'},
-  {'hp':'COPE June PPI Survey Complete', 'api':'questionnaireOnCopeJune', 'func':'api2hp_status'},
-  {'hp':'COPE June PPI Survey Completion Date', 'api':'questionnaireOnCopeJuneAuthored', 'func':'api2hp_datetime'},
-  {'hp':'COPE July PPI Survey Complete', 'api':'questionnaireOnCopeJuly', 'func':'api2hp_status'},
-  {'hp':'COPE July PPI Survey Completion Date', 'api':'questionnaireOnCopeJulyAuthored', 'func':'api2hp_datetime'},
-  {'hp':'income', 'api':'income', 'func':'api2hp_basic'},
-  {'hp':'retentionEligibleStatus', 'api':'retentionEligibleStatus', 'func':'api2hp_basic'},
+  {'hp':'COPE May PPI Survey Complete',                     'api':'questionnaireOnCopeMay',                                 'func':'api2hp_status'},
+  {'hp':'COPE May PPI Survey Completion Date',              'api':'questionnaireOnCopeMayAuthored',                         'func':'api2hp_datetime'},
+  {'hp':'COPE June PPI Survey Complete',                    'api':'questionnaireOnCopeJune',                                'func':'api2hp_status'},
+  {'hp':'COPE June PPI Survey Completion Date',             'api':'questionnaireOnCopeJuneAuthored',                        'func':'api2hp_datetime'},
+  {'hp':'COPE July PPI Survey Complete',                    'api':'questionnaireOnCopeJuly',                                'func':'api2hp_status'},
+  {'hp':'COPE July PPI Survey Completion Date',             'api':'questionnaireOnCopeJulyAuthored',                        'func':'api2hp_datetime'},
+  {'hp':'income',                                           'api':'income',                                                 'func':'api2hp_basic'},
+  {'hp':'retentionEligibleStatus',                          'api':'retentionEligibleStatus',                                'func':'api2hp_basic'},
 
-  # "Retention Status" field 
-  {'hp':'Retention Status', 'api':'retentionType', 'func':'api2hp_retention_status'},
+  # "Retention Status" field
+  {'hp':'Retention Status',                                 'api':'retentionType',                                          'func':'api2hp_retention_status'},
 
   # Additional COPE fields
-  {'hp':'COPE Nov PPI Survey Complete', 'api':'questionnaireOnCopeNov', 'func':'api2hp_status'},
-  {'hp':'COPE Nov PPI Survey Completion Date', 'api':'questionnaireOnCopeNovAuthored', 'func':'api2hp_datetime'},
-  {'hp':'COPE Dec PPI Survey Complete', 'api':'questionnaireOnCopeDec', 'func':'api2hp_status'},
-  {'hp':'COPE Dec PPI Survey Completion Date', 'api':'questionnaireOnCopeDecAuthored', 'func':'api2hp_datetime'},
+  {'hp':'COPE Nov PPI Survey Complete',                     'api':'questionnaireOnCopeNov',                                 'func':'api2hp_status'},
+  {'hp':'COPE Nov PPI Survey Completion Date',              'api':'questionnaireOnCopeNovAuthored',                         'func':'api2hp_datetime'},
+  {'hp':'COPE Dec PPI Survey Complete',                     'api':'questionnaireOnCopeDec',                                 'func':'api2hp_status'},
+  {'hp':'COPE Dec PPI Survey Completion Date',              'api':'questionnaireOnCopeDecAuthored',                         'func':'api2hp_datetime'},
 
   # "Date of First * Consent" fields
-  {'hp':'Date of First Primary Consent', 'api':'consentForStudyEnrollmentFirstYesAuthored', 'func':'api2hp_datetime'},
-  {'hp':'Date of First EHR Consent', 'api':'consentForElectronicHealthRecordsFirstYesAuthored', 'func':'api2hp_datetime'},
+  {'hp':'Date of First Primary Consent',                    'api':'consentForStudyEnrollmentFirstYesAuthored',              'func':'api2hp_datetime'},
+  {'hp':'Date of First EHR Consent',                        'api':'consentForElectronicHealthRecordsFirstYesAuthored',      'func':'api2hp_datetime'},
 
   # Feb 2021 COPE survey fields - NIHPMI-551
-  {'hp': 'COPE Feb PPI Survey Complete', 'api': 'questionnaireOnCopeFeb', 'func': 'api2hp_status'},
-  {'hp': 'COPE Feb PPI Survey Completion Date', 'api': 'questionnaireOnCopeFebAuthored', 'func':'api2hp_datetime'},
+  {'hp':'COPE Feb PPI Survey Complete',                     'api':'questionnaireOnCopeFeb',                                 'func':'api2hp_status'},
+  {'hp':'COPE Feb PPI Survey Completion Date',              'api':'questionnaireOnCopeFebAuthored',                         'func':'api2hp_datetime'},
 
   # NIHPMI-546 lab fields
-  {'hp':'biospecimenCollectedSite', 'api':'biospecimenCollectedSite', 'func':'api2hp_basic'},
-  {'hp':'biospecimenSourceSite', 'api':'biospecimenSourceSite', 'func':'api2hp_basic'},
-  {'hp':'enrollmentSite', 'api':'enrollmentSite', 'func':'api2hp_basic'},
-  {'hp':'numBaselineSamplesArrived', 'api':'numBaselineSamplesArrived', 'func':'api2hp_basic'},
-  {'hp':'participantId', 'api':'participantId', 'func':'api2hp_basic'},
-  {'hp':'physicalMeasurementsFinalizedSite', 'api':'physicalMeasurementsFinalizedSite', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1CFD9', 'api':'sampleStatus1CFD9', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1CFD9Time', 'api':'sampleStatus1CFD9Time', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1ED02', 'api':'sampleStatus1ED02', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1ED04', 'api':'sampleStatus1ED04', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1ED04Time', 'api':'sampleStatus1ED04Time', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1ED10', 'api':'sampleStatus1ED10', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1ED10Time', 'api':'sampleStatus1ED10Time', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1HEP4', 'api':'sampleStatus1HEP4', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1HEP4Time', 'api':'sampleStatus1HEP4Time', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1PS08', 'api':'sampleStatus1PS08', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1PST8', 'api':'sampleStatus1PST8', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1PST8Time', 'api':'sampleStatus1PST8Time', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1PXR2', 'api':'sampleStatus1PXR2', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1PXR2Time', 'api':'sampleStatus1PXR2Time', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1SAL', 'api':'sampleStatus1SAL', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1SAL2', 'api':'sampleStatus1SAL2', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1SAL2Time', 'api':'sampleStatus1SAL2Time', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1SALTime', 'api':'sampleStatus1SALTime', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1SS08', 'api':'sampleStatus1SS08', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1SST8', 'api':'sampleStatus1SST8', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1SST8Time', 'api':'sampleStatus1SST8Time', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1UR10', 'api':'sampleStatus1UR10', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1UR10Time', 'api':'sampleStatus1UR10Time', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus1UR90', 'api':'sampleStatus1UR90', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus2ED10', 'api':'sampleStatus2ED10', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus2ED10Time', 'api':'sampleStatus2ED10Time', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus2PST8', 'api':'sampleStatus2PST8', 'func':'api2hp_basic'},
-  {'hp':'sampleStatus2SST8', 'api':'sampleStatus2SST8', 'func':'api2hp_basic'},
-  {'hp':'sampleStatusDV1SAL2', 'api':'sampleStatusDV1SAL2', 'func':'api2hp_basic'},
-  {'hp':'samplesToIsolateDNA', 'api':'samplesToIsolateDNA', 'func':'api2hp_basic'},
-  {'hp':'site', 'api':'site', 'func':'api2hp_basic'},
-  
+  {'hp':'biospecimenCollectedSite',                         'api':'biospecimenCollectedSite',                               'func':'api2hp_basic'},
+  {'hp':'biospecimenSourceSite',                            'api':'biospecimenSourceSite',                                  'func':'api2hp_basic'},
+  {'hp':'enrollmentSite',                                   'api':'enrollmentSite',                                         'func':'api2hp_basic'},
+  {'hp':'numBaselineSamplesArrived',                        'api':'numBaselineSamplesArrived',                              'func':'api2hp_basic'},
+  {'hp':'participantId',                                    'api':'participantId',                                          'func':'api2hp_basic'},
+  {'hp':'physicalMeasurementsFinalizedSite',                'api':'physicalMeasurementsFinalizedSite',                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus1CFD9',                                'api':'sampleStatus1CFD9',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus1CFD9Time',                            'api':'sampleStatus1CFD9Time',                                  'func':'api2hp_basic'},
+  {'hp':'sampleStatus1ED02',                                'api':'sampleStatus1ED02',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus1ED04',                                'api':'sampleStatus1ED04',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus1ED04Time',                            'api':'sampleStatus1ED04Time',                                  'func':'api2hp_basic'},
+  {'hp':'sampleStatus1ED10',                                'api':'sampleStatus1ED10',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus1ED10Time',                            'api':'sampleStatus1ED10Time',                                  'func':'api2hp_basic'},
+  {'hp':'sampleStatus1HEP4',                                'api':'sampleStatus1HEP4',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus1HEP4Time',                            'api':'sampleStatus1HEP4Time',                                  'func':'api2hp_basic'},
+  {'hp':'sampleStatus1PS08',                                'api':'sampleStatus1PS08',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus1PST8',                                'api':'sampleStatus1PST8',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus1PST8Time',                            'api':'sampleStatus1PST8Time',                                  'func':'api2hp_basic'},
+  {'hp':'sampleStatus1PXR2',                                'api':'sampleStatus1PXR2',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus1PXR2Time',                            'api':'sampleStatus1PXR2Time',                                  'func':'api2hp_basic'},
+  {'hp':'sampleStatus1SAL',                                 'api':'sampleStatus1SAL',                                       'func':'api2hp_basic'},
+  {'hp':'sampleStatus1SAL2',                                'api':'sampleStatus1SAL2',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus1SAL2Time',                            'api':'sampleStatus1SAL2Time',                                  'func':'api2hp_basic'},
+  {'hp':'sampleStatus1SALTime',                             'api':'sampleStatus1SALTime',                                   'func':'api2hp_basic'},
+  {'hp':'sampleStatus1SS08',                                'api':'sampleStatus1SS08',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus1SST8',                                'api':'sampleStatus1SST8',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus1SST8Time',                            'api':'sampleStatus1SST8Time',                                  'func':'api2hp_basic'},
+  {'hp':'sampleStatus1UR10',                                'api':'sampleStatus1UR10',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus1UR10Time',                            'api':'sampleStatus1UR10Time',                                  'func':'api2hp_basic'},
+  {'hp':'sampleStatus1UR90',                                'api':'sampleStatus1UR90',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus2ED10',                                'api':'sampleStatus2ED10',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus2ED10Time',                            'api':'sampleStatus2ED10Time',                                  'func':'api2hp_basic'},
+  {'hp':'sampleStatus2PST8',                                'api':'sampleStatus2PST8',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatus2SST8',                                'api':'sampleStatus2SST8',                                      'func':'api2hp_basic'},
+  {'hp':'sampleStatusDV1SAL2',                              'api':'sampleStatusDV1SAL2',                                    'func':'api2hp_basic'},
+  {'hp':'samplesToIsolateDNA',                              'api':'samplesToIsolateDNA',                                    'func':'api2hp_basic'},
+  {'hp':'site',                                             'api':'site',                                                   'func':'api2hp_basic'},
+
   # NIHPMI-570 Summer and Fall Surveys
-  {'hp':'Summer Meeting Survey Complete', 'api':'questionnaireOnCopeVaccineMinute1', 'func':'api2hp_status'},
-  {'hp':'Summer Meeting Survey Complete Date', 'api':'questionnaireOnCopeVaccineMinute1Authored', 'func':'api2hp_datetime'},
-  {'hp':'Fall Meeting Survey Complete', 'api':'questionnaireOnCopeVaccineMinute2', 'func':'api2hp_status'},
-  {'hp':'Fall Meeting Survey Complete Date', 'api':'questionnaireOnCopeVaccineMinute2Authored', 'func':'api2hp_datetime'},
+  {'hp':'Summer Meeting Survey Complete',                   'api':'questionnaireOnCopeVaccineMinute1',                      'func':'api2hp_status'},
+  {'hp':'Summer Meeting Survey Complete Date',              'api':'questionnaireOnCopeVaccineMinute1Authored',              'func':'api2hp_datetime'},
+  {'hp':'Fall Meeting Survey Complete',                     'api':'questionnaireOnCopeVaccineMinute2',                      'func':'api2hp_status'},
+  {'hp':'Fall Meeting Survey Complete Date',                'api':'questionnaireOnCopeVaccineMinute2Authored',              'func':'api2hp_datetime'},
 
   # NIHPMI-574 Personal & Family Hx, SDOH, Winter Minute, New Year Minute Surveys, and Digital Health Consent
-  {'hp':'Personal & Family Hx PPI Survey Complete', 'api':'questionnaireOnPersonalAndFamilyHealthHistory', 'func':'api2hp_status'},
-  {'hp':'Personal & Family Hx PPI Survey Completion Date', 'api':'questionnaireOnPersonalAndFamilyHealthHistoryAuthored', 'func':'api2hp_datetime'},
-  {'hp':'SDOH PPI Survey Complete', 'api':'questionnaireOnSocialDeterminantsOfHealth', 'func':'api2hp_status'},
-  {'hp':'SDOH PPI Survey Completion Date', 'api':'questionnaireOnSocialDeterminantsOfHealthAuthored', 'func':'api2hp_datetime'},
-  {'hp':'Winter Minute PPI Survey Complete', 'api':'questionnaireOnCopeVaccineMinute3', 'func':'api2hp_status'},
-  {'hp':'Winter Minute PPI Survey Completion Date', 'api':'questionnaireOnCopeVaccineMinute3Authored', 'func':'api2hp_datetime'},
-  {'hp':'Digital Health Consent', 'api':'digitalHealthSharingStatus', 'func':'api2hp_into_str'},
-  {'hp':'New Year Minute PPI Survey Complete', 'api':'questionnaireOnCopeVaccineMinute4', 'func':'api2hp_status'},
-  {'hp':'New Year Minute PPI Survey Completion Date', 'api':'questionnaireOnCopeVaccineMinute4Authored', 'func':'api2hp_datetime'},
+  {'hp':'Personal & Family Hx PPI Survey Complete',         'api':'questionnaireOnPersonalAndFamilyHealthHistory',          'func':'api2hp_status'},
+  {'hp':'Personal & Family Hx PPI Survey Completion Date',  'api':'questionnaireOnPersonalAndFamilyHealthHistoryAuthored',  'func':'api2hp_datetime'},
+  {'hp':'SDOH PPI Survey Complete',                         'api':'questionnaireOnSocialDeterminantsOfHealth',              'func':'api2hp_status'},
+  {'hp':'SDOH PPI Survey Completion Date',                  'api':'questionnaireOnSocialDeterminantsOfHealthAuthored',      'func':'api2hp_datetime'},
+  {'hp':'Winter Minute PPI Survey Complete',                'api':'questionnaireOnCopeVaccineMinute3',                      'func':'api2hp_status'},
+  {'hp':'Winter Minute PPI Survey Completion Date',         'api':'questionnaireOnCopeVaccineMinute3Authored',              'func':'api2hp_datetime'},
+  {'hp':'Digital Health Consent',                           'api':'digitalHealthSharingStatus',                             'func':'api2hp_into_str'},
+  {'hp':'New Year Minute PPI Survey Complete',              'api':'questionnaireOnCopeVaccineMinute4',                      'func':'api2hp_status'},
+  {'hp':'New Year Minute PPI Survey Completion Date',       'api':'questionnaireOnCopeVaccineMinute4Authored',              'func':'api2hp_datetime'},
+  {'hp':'Enrollment Site',                                  'api':'enrollmentSite',                                         'func':'api2hp_into_str'},
+  {'hp':'Physical Measurements Collection Type',            'api':'physicalMeasurementsCollectType',                        'func':'api2hp_into_str'},
+  {'hp':'ID Verification Date',                             'api':'onSiteIdVerificationTime',                               'func':'api2hp_datetime'},
+  {'hp':'Incentive Date',                                   'api':'participantIncentives',                                  'func':'api2hp_datetime'},
+  {'hp':'Remote Physical Measurements Status',              'api':'selfReportedPhysicalMeasurementsStatus',                 'func':'api2hp_into_str'},
+  {'hp':'Remote Physical Measurements Completion Date',     'api':'selfReportedPhysicalMeasurementsAuthored',               'func':'api2hp_datetime'},
+  {'hp':'Clinic Physical Measurements Status',              'api':'clinicPhysicalMeasurementsStatus',                       'func':'api2hp_into_str'},
+  {'hp':'Clinic Physical Measurements Completion Date',     'api':'clinicPhysicalMeasurementsFinalizedTime',                'func':'api2hp_datetime'},
+  {'hp':'Clinic Physical Measurements Site',                'api':'clinicPhysicalMeasurementsFinalizedSite',                'func':'api2hp_into_str'},
+  {'hp':'Clinic Physical Measurements Date',                'api':'clinicPhysicalMeasurementsTime',                         'func':'api2hp_datetime'},
+  {'hp':'Clinic Physical Measurements Creation Site',       'api':'clinicPhysicalMeasurementsCreatedSite',                  'func':'api2hp_into_str'},
+  {'hp':'Date of Primary Re-Consent',                       'api':'reconsentForStudyEnrollmentAuthored',                    'func':'api2hp_datetime'},
+  {'hp':'Date of EHR Re-Consent',                           'api':'reconsentForElectronicHealthRecordsAuthored',            'func':'api2hp_datetime'},
 ]
 
 def api2hp_basic(x):
