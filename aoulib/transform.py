@@ -231,6 +231,12 @@ mappings_one_to_one = [
   {'hp':'Clinic Physical Measurements Creation Site',       'api':'clinicPhysicalMeasurementsCreatedSite',                  'func':'api2hp_into_str'},
   {'hp':'Date of Primary Re-Consent',                       'api':'reconsentForStudyEnrollmentAuthored',                    'func':'api2hp_datetime'},
   {'hp':'Date of EHR Re-Consent',                           'api':'reconsentForElectronicHealthRecordsAuthored',            'func':'api2hp_datetime'},
+
+  # NIHPMI-602 AoU Retention Pilot additions
+  {'hp':'HealthCare Access PPI Survey Complete',            'api':'questionnaireOnHealthcareAccess',                        'func':'api2hp_status'},
+  {'hp':'HealthCare Access PPI Surcey Completion Date',     'api':'questionnaireOnHealthcareAccessAuthored',                'func':'api2hp_datetime'},
+  {'hp':'Updated Primary Consent',                          'api':'questionnaireOnDnaProgram',                              'func':'api2hp_status'},
+  {'hp':'Updated Primary COnsent Date',                     'api':'questionnaireOnDnaProgramAuthored',                      'func':'api2hp_datetime'},
 ]
 
 def api2hp_basic(x):
