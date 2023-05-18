@@ -220,7 +220,7 @@ mappings_one_to_one = [
   {'hp':'New Year Minute PPI Survey Completion Date',       'api':'questionnaireOnCopeVaccineMinute4Authored',              'func':'api2hp_datetime'},
   {'hp':'Enrollment Site',                                  'api':'enrollmentSite',                                         'func':'api2hp_into_str'},
   {'hp':'Physical Measurements Collection Type',            'api':'physicalMeasurementsCollectType',                        'func':'api2hp_into_str'},
-  {'hp':'ID Verification Date',                             'api':'onSiteIdVerificationTime',                               'func':'api2hp_datetime'},
+  {'hp':'ID Verification Date',                             'api':'onsiteIdVerificationTime',                               'func':'api2hp_datetime'},
   {'hp':'Incentive Date',                                   'api':'participantIncentives',                                  'func':'api2hp_datetime'},
   {'hp':'Remote Physical Measurements Status',              'api':'selfReportedPhysicalMeasurementsStatus',                 'func':'api2hp_into_str'},
   {'hp':'Remote Physical Measurements Completion Date',     'api':'selfReportedPhysicalMeasurementsAuthored',               'func':'api2hp_datetime'},
