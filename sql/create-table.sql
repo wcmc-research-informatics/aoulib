@@ -166,4 +166,8 @@ CREATE TABLE $TABLE_NAME$ (
 	,[Clinic Physical Measurements Creation Site] [NVARCHAR](1000) NULL
 	,[Date of Primary Re-Consent] DATETIME2 NULL
 	,[Date of EHR Re-Consent] DATETIME2 NULL
+	,[HealthCare Access PPI Survey Complete] [NVARCHAR](2) NULL
+	,[HealthCare Access PPI Survey Completion Date] DATETIME2 NULL
+	,[Updated Primary Consent] [NVARCHAR](2) NULL
+	,[Updated Primary Consent Date] DATETIME2 NULL
 )
