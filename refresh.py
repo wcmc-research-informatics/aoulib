@@ -49,7 +49,7 @@ It's suggested to put 'spec' files in a folder named 'enclave'.
 
 Create the `enclave` folder for storing specification files
 
-    md enclave
+    mkdir enclave
 
 #### AoU API specification file
 

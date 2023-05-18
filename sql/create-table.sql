@@ -6,7 +6,7 @@ CREATE TABLE $TABLE_NAME$ (
 	,[Date of Birth] DATE NULL 
 	,[Language] NVARCHAR(32) NULL 
 	,[Language of General Consent] NVARCHAR(32) NULL
-    ,[Participant Status] NVARCHAR(28) NULL
+	,[Participant Status] NVARCHAR(28) NULL
 	,[General Consent Status] NVARCHAR(2) NULL 
 	,[General Consent Date] DATE NULL 
 	,[EHR Consent Status] NVARCHAR(2) NULL 
@@ -45,9 +45,9 @@ CREATE TABLE $TABLE_NAME$ (
 	,[Access PPI Survey Completion Date] DATE NULL 
 	,[Physical Measurements Status] NVARCHAR(2) NULL 
 	,[Physical Measurements Completion Date] DATE NULL 
-    ,[Physical Measurements Site] NVARCHAR(50) NULL
-    ,[Paired Site] NVARCHAR(50) NULL
-    ,[Paired Organization] NVARCHAR(50) NULL
+	,[Physical Measurements Site] NVARCHAR(50) NULL
+	,[Paired Site] NVARCHAR(50) NULL
+	,[Paired Organization] NVARCHAR(50) NULL
 	,[Samples for DNA Received] NVARCHAR(2) NULL 
 	,[Biospecimens] NVARCHAR(10) NULL 
 	,[8 mL SST Collected] NVARCHAR(2) NULL 
@@ -66,7 +66,7 @@ CREATE TABLE $TABLE_NAME$ (
 	,[Urine 10 mL Collection Date] DATE NULL 
 	,[Saliva Collected] NVARCHAR(2) NULL 
 	,[Saliva Collection Date] DATE NULL
-    ,[Biospecimens Site] NVARCHAR(50) NULL
+	,[Biospecimens Site] NVARCHAR(50) NULL
 	,[2 mL EDTA Collected] NVARCHAR(2) NULL
 	,[2 mL EDTA Collection Date] DATE NULL
 	,[Cell-Free DNA Collected] NVARCHAR(2) NULL
@@ -80,9 +80,9 @@ CREATE TABLE $TABLE_NAME$ (
 	,[Login Phone] NVARCHAR(32) NULL
 	,[Core Participant Date] DATETIME2 NULL
 	,[enrollmentStatusCoreOrderedSampleTime] DATETIME2 NULL
-	,[Biospecimen Status] [NVARCHAR](MAX) NULL
-	,[4 mL EDTA Sample Order Status] [NVARCHAR](MAX) NULL
-	,[Saliva Sample Order Status] [NVARCHAR](MAX) NULL
+	,[Biospecimen Status] [NVARCHAR](1000) NULL
+	,[4 mL EDTA Sample Order Status] [NVARCHAR](1000) NULL
+	,[Saliva Sample Order Status] [NVARCHAR](1000) NULL
 	,[gRoR Consent Status] [NVARCHAR](2) NULL
 	,[gRoR Consent Date] DATETIME2 NULL
 	,[COPE May PPI Survey Complete] [NVARCHAR](2) NULL
@@ -103,43 +103,43 @@ CREATE TABLE $TABLE_NAME$ (
 	,[Date of First EHR Consent] DATE NULL
 	,[COPE Feb PPI Survey Complete] [NVARCHAR](2) NULL
 	,[COPE Feb PPI Survey Completion Date] DATETIME2 NULL
-	,[biospecimenCollectedSite] [NVARCHAR](MAX) NULL
-	,[biospecimenSourceSite] [NVARCHAR](MAX) NULL
-	,[enrollmentSite] [NVARCHAR](MAX) NULL
-	,[numBaselineSamplesArrived] [NVARCHAR](MAX) NULL
-	,[participantId] [NVARCHAR](MAX) NULL
-	,[physicalMeasurementsFinalizedSite] [NVARCHAR](MAX) NULL
-	,[sampleStatus1CFD9] [NVARCHAR](MAX) NULL
-	,[sampleStatus1CFD9Time] [NVARCHAR](MAX) NULL
-	,[sampleStatus1ED02] [NVARCHAR](MAX) NULL
-	,[sampleStatus1ED04] [NVARCHAR](MAX) NULL
-	,[sampleStatus1ED04Time] [NVARCHAR](MAX) NULL
-	,[sampleStatus1ED10] [NVARCHAR](MAX) NULL
-	,[sampleStatus1ED10Time] [NVARCHAR](MAX) NULL
-	,[sampleStatus1HEP4] [NVARCHAR](MAX) NULL
-	,[sampleStatus1HEP4Time] [NVARCHAR](MAX) NULL
-	,[sampleStatus1PS08] [NVARCHAR](MAX) NULL
-	,[sampleStatus1PST8] [NVARCHAR](MAX) NULL
-	,[sampleStatus1PST8Time] [NVARCHAR](MAX) NULL
-	,[sampleStatus1PXR2] [NVARCHAR](MAX) NULL
-	,[sampleStatus1PXR2Time] [NVARCHAR](MAX) NULL
-	,[sampleStatus1SAL] [NVARCHAR](MAX) NULL
-	,[sampleStatus1SAL2] [NVARCHAR](MAX) NULL
-	,[sampleStatus1SAL2Time] [NVARCHAR](MAX) NULL
-	,[sampleStatus1SALTime] [NVARCHAR](MAX) NULL
-	,[sampleStatus1SS08] [NVARCHAR](MAX) NULL
-	,[sampleStatus1SST8] [NVARCHAR](MAX) NULL
-	,[sampleStatus1SST8Time] [NVARCHAR](MAX) NULL
-	,[sampleStatus1UR10] [NVARCHAR](MAX) NULL
-	,[sampleStatus1UR10Time] [NVARCHAR](MAX) NULL
-	,[sampleStatus1UR90] [NVARCHAR](MAX) NULL
-	,[sampleStatus2ED10] [NVARCHAR](MAX) NULL
-	,[sampleStatus2ED10Time] [NVARCHAR](MAX) NULL
-	,[sampleStatus2PST8] [NVARCHAR](MAX) NULL
-	,[sampleStatus2SST8] [NVARCHAR](MAX) NULL
-	,[sampleStatusDV1SAL2] [NVARCHAR](MAX) NULL
-	,[samplesToIsolateDNA] [NVARCHAR](MAX) NULL
-	,[site] [NVARCHAR](MAX) NULL
+	,[biospecimenCollectedSite] [NVARCHAR](1000) NULL
+	,[biospecimenSourceSite] [NVARCHAR](1000) NULL
+	,[enrollmentSite] [NVARCHAR](1000) NULL
+	,[numBaselineSamplesArrived] [NVARCHAR](1000) NULL
+	,[participantId] [NVARCHAR](1000) NULL
+	,[physicalMeasurementsFinalizedSite] [NVARCHAR](1000) NULL
+	,[sampleStatus1CFD9] [NVARCHAR](1000) NULL
+	,[sampleStatus1CFD9Time] [NVARCHAR](1000) NULL
+	,[sampleStatus1ED02] [NVARCHAR](1000) NULL
+	,[sampleStatus1ED04] [NVARCHAR](1000) NULL
+	,[sampleStatus1ED04Time] [NVARCHAR](1000) NULL
+	,[sampleStatus1ED10] [NVARCHAR](1000) NULL
+	,[sampleStatus1ED10Time] [NVARCHAR](1000) NULL
+	,[sampleStatus1HEP4] [NVARCHAR](1000) NULL
+	,[sampleStatus1HEP4Time] [NVARCHAR](1000) NULL
+	,[sampleStatus1PS08] [NVARCHAR](1000) NULL
+	,[sampleStatus1PST8] [NVARCHAR](1000) NULL
+	,[sampleStatus1PST8Time] [NVARCHAR](1000) NULL
+	,[sampleStatus1PXR2] [NVARCHAR](1000) NULL
+	,[sampleStatus1PXR2Time] [NVARCHAR](1000) NULL
+	,[sampleStatus1SAL] [NVARCHAR](1000) NULL
+	,[sampleStatus1SAL2] [NVARCHAR](1000) NULL
+	,[sampleStatus1SAL2Time] [NVARCHAR](1000) NULL
+	,[sampleStatus1SALTime] [NVARCHAR](1000) NULL
+	,[sampleStatus1SS08] [NVARCHAR](1000) NULL
+	,[sampleStatus1SST8] [NVARCHAR](1000) NULL
+	,[sampleStatus1SST8Time] [NVARCHAR](1000) NULL
+	,[sampleStatus1UR10] [NVARCHAR](1000) NULL
+	,[sampleStatus1UR10Time] [NVARCHAR](1000) NULL
+	,[sampleStatus1UR90] [NVARCHAR](1000) NULL
+	,[sampleStatus2ED10] [NVARCHAR](1000) NULL
+	,[sampleStatus2ED10Time] [NVARCHAR](1000) NULL
+	,[sampleStatus2PST8] [NVARCHAR](1000) NULL
+	,[sampleStatus2SST8] [NVARCHAR](1000) NULL
+	,[sampleStatusDV1SAL2] [NVARCHAR](1000) NULL
+	,[samplesToIsolateDNA] [NVARCHAR](1000) NULL
+	,[site] [NVARCHAR](1000) NULL
 	,[Summer Meeting Survey Complete] [NVARCHAR](2) NULL
 	,[Summer Meeting Survey Complete Date] DATETIME2 NULL
 	,[Fall Meeting Survey Complete] [NVARCHAR](2) NULL
@@ -150,7 +150,20 @@ CREATE TABLE $TABLE_NAME$ (
 	,[SDOH PPI Survey Completion Date] DATETIME2 NULL
 	,[Winter Minute PPI Survey Complete] [NVARCHAR](2) NULL
 	,[Winter Minute PPI Survey Completion Date] DATETIME2 NULL
-	,[Digital Health Consent] [VARCHAR](MAX) NULL
+	,[Digital Health Consent] [VARCHAR](1000) NULL
 	,[New Year Minute PPI Survey Complete] [NVARCHAR](2) NULL
 	,[New Year Minute PPI Survey Completion Date] DATETIME2 NULL
+	,[Enrollment Site] [NVARCHAR](1000) NULL
+	,[Physical Measurements Collection Type] [NVARCHAR](1000) NULL
+	,[ID Verification Date] DATETIME2 NULL
+	,[Incentive Date] DATETIME2 NULL
+	,[Remote Physical Measurements Status] [NVARCHAR](1000) NULL
+	,[Remote Physical Measurements Completion Date] DATETIME2 NULL
+	,[Clinic Physical Measurements Status] [NVARCHAR](1000) NULL
+	,[Clinic Physical Measurements Completion Date] DATETIME2 NULL
+	,[Clinic Physical Measurements Site] [NVARCHAR](1000) NULL
+	,[Clinic Physical Measurements Date] DATETIME2 NULL
+	,[Clinic Physical Measurements Creation Site] [NVARCHAR](1000) NULL
+	,[Date of Primary Re-Consent] DATETIME2 NULL
+	,[Date of EHR Re-Consent] DATETIME2 NULL
 )
