@@ -234,9 +234,9 @@ mappings_one_to_one = [
 
   # NIHPMI-602 AoU Retention Pilot additions
   {'hp':'HealthCare Access PPI Survey Complete',            'api':'questionnaireOnHealthcareAccess',                        'func':'api2hp_status'},
-  {'hp':'HealthCare Access PPI Surcey Completion Date',     'api':'questionnaireOnHealthcareAccessAuthored',                'func':'api2hp_datetime'},
+  {'hp':'HealthCare Access PPI Survey Completion Date',     'api':'questionnaireOnHealthcareAccessAuthored',                'func':'api2hp_datetime'},
   {'hp':'Updated Primary Consent',                          'api':'questionnaireOnDnaProgram',                              'func':'api2hp_status'},
-  {'hp':'Updated Primary COnsent Date',                     'api':'questionnaireOnDnaProgramAuthored',                      'func':'api2hp_datetime'},
+  {'hp':'Updated Primary Consent Date',                     'api':'questionnaireOnDnaProgramAuthored',                      'func':'api2hp_datetime'},
 ]
 
 def api2hp_basic(x):
