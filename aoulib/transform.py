@@ -220,7 +220,7 @@ mappings_one_to_one = [
   {'hp':'New Year Minute PPI Survey Completion Date',       'api':'questionnaireOnCopeVaccineMinute4Authored',              'func':'api2hp_datetime'},
   {'hp':'Enrollment Site',                                  'api':'enrollmentSite',                                         'func':'api2hp_into_str'},
   {'hp':'Physical Measurements Collection Type',            'api':'physicalMeasurementsCollectType',                        'func':'api2hp_into_str'},
-  {'hp':'ID Verification Date',                             'api':'onSiteIdVerificationTime',                               'func':'api2hp_datetime'},
+  {'hp':'ID Verification Date',                             'api':'onsiteIdVerificationTime',                               'func':'api2hp_datetime'},
   {'hp':'Incentive Date',                                   'api':'participantIncentives',                                  'func':'api2hp_datetime'},
   {'hp':'Remote Physical Measurements Status',              'api':'selfReportedPhysicalMeasurementsStatus',                 'func':'api2hp_into_str'},
   {'hp':'Remote Physical Measurements Completion Date',     'api':'selfReportedPhysicalMeasurementsAuthored',               'func':'api2hp_datetime'},
@@ -231,6 +231,12 @@ mappings_one_to_one = [
   {'hp':'Clinic Physical Measurements Creation Site',       'api':'clinicPhysicalMeasurementsCreatedSite',                  'func':'api2hp_into_str'},
   {'hp':'Date of Primary Re-Consent',                       'api':'reconsentForStudyEnrollmentAuthored',                    'func':'api2hp_datetime'},
   {'hp':'Date of EHR Re-Consent',                           'api':'reconsentForElectronicHealthRecordsAuthored',            'func':'api2hp_datetime'},
+
+  # NIHPMI-602 AoU Retention Pilot additions
+  {'hp':'HealthCare Access PPI Survey Complete',            'api':'questionnaireOnHealthcareAccess',                        'func':'api2hp_status'},
+  {'hp':'HealthCare Access PPI Survey Completion Date',     'api':'questionnaireOnHealthcareAccessAuthored',                'func':'api2hp_datetime'},
+  {'hp':'Updated Primary Consent',                          'api':'questionnaireOnDnaProgram',                              'func':'api2hp_status'},
+  {'hp':'Updated Primary Consent Date',                     'api':'questionnaireOnDnaProgramAuthored',                      'func':'api2hp_datetime'},
 ]
 
 def api2hp_basic(x):
