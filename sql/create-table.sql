@@ -150,7 +150,7 @@ CREATE TABLE $TABLE_NAME$ (
 	,[SDOH PPI Survey Completion Date] DATETIME2 NULL
 	,[Winter Minute PPI Survey Complete] [NVARCHAR](2) NULL
 	,[Winter Minute PPI Survey Completion Date] DATETIME2 NULL
-	,[Digital Health Consent] [VARCHAR](1000) NULL
+	,[Digital Health Consent] [VARCHAR](2000) NULL
 	,[New Year Minute PPI Survey Complete] [NVARCHAR](2) NULL
 	,[New Year Minute PPI Survey Completion Date] DATETIME2 NULL
 	,[Enrollment Site] [NVARCHAR](1000) NULL
